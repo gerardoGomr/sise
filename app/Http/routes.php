@@ -17,105 +17,21 @@ Route::group([
 		'middleware' => 'usuarioLogueado'
 	],  function() {
 
+	include app_path() . '\Http\Routes\routes_recHumanos.php';
+
 	// pantalla principal
 	Route::get('/', 'PrincipalController@index');
 
 	############################# psicologia
 	Route::get('/psicologia', 'Psicologia\PsicologiaController@index');
-
-	########################################################## recHumanos ##########################################################
-	// principal
-	Route::get('recHumanos', 'RecHumanos\LaravelRecHumanosController@index');
-
-	// busqueda en form busqueda
-	Route::post('recHumanos/buscarTrabajador', 'RecHumanos\LaravelRecHumanosController@buscarTrabajador');
-
-	// click en detalle
-	Route::post('recHumanos/detalle', 'RecHumanos\LaravelRecHumanosController@detalleTrabajador');
-
-	// alta de nuevo usuario
-	Route::get('recHumanos/captura', 'RecHumanos\LaravelRecHumanosController@captura');
-
-	// editar usuario
-	Route::get('recHumanos/edicion/{id}', 'RecHumanos\LaravelRecHumanosController@edicion');
-
-	// guardar usuario
-	Route::post('recHumanos/guardarTrabajador', 'RecHumanos\LaravelRecHumanosController@guardarTrabajador');
-
-	// guardar foto
-	Route::post('recHumanos/subirFoto', 'RecHumanos\LaravelRecHumanosController@subirFoto');
-
-	// recortar foto
-	Route::post('recHumanos/recortarFoto', 'RecHumanos\LaravelRecHumanosController@recortarFoto');
-
-	// cambiar password
-	Route::get('recHumanos/password/{id}', 'RecHumanos\LaravelRecHumanosController@password');
-
-	// cambiar password
-	Route::post('recHumanos/password', 'RecHumanos\LaravelRecHumanosController@cambiarPassword');
-
-	// desactivar usuario
-	Route::post('recHumanos/desactivar', 'RecHumanos\LaravelRecHumanosController@desactivar');
-
-	// activar usuario
-	Route::post('recHumanos/activar', 'RecHumanos\LaravelRecHumanosController@activar');
-	####################################################################################################################
 });
 
 Route::group([
 		'prefix'     => '/',
 		'middleware' => 'ip'
 	],  function() {
-	############################# Dirección General
-	Route::get('dirGeneral', 'DirGeneral\LaravelDirGeneralController@index');
 
-	// grafica programados
-	Route::post('dirGeneral/graficaProgramadosMensual', 'DirGeneral\LaravelDirGeneralController@graficaProgramadosMensual');
-
-	// grafica evaluaciones
-	Route::post('dirGeneral/graficaEvaluadosMensual', 'DirGeneral\LaravelDirGeneralController@graficaEvaluacionesConcluidasMensual');
-
-	// total programados
-	Route::post('dirGeneral/totalProgramados', 'DirGeneral\LaravelDirGeneralController@totalProgramados');
-
-	// total evaluaciones
-	Route::post('dirGeneral/totalEvaluaciones', 'DirGeneral\LaravelDirGeneralController@totalEvaluacionesConcluidas');
-
-	// total evaluaciones en proceso
-	Route::post('dirGeneral/totalEvaluacionesProceso', 'DirGeneral\LaravelDirGeneralController@totalEvaluacionesProceso');
-
-	// resultados integrales
-	Route::post('dirGeneral/resultados', 'DirGeneral\LaravelDirGeneralController@resultadosIntegrales');
-
-	// búsqueda de evaluaciones
-	Route::get('dirGeneral/evaluados/{curp?}', 'DirGeneral\LaravelDirGeneralController@evaluados');
-
-	// buscar evaluados
-	Route::post('dirGeneral/buscarEvaluado', 'DirGeneral\LaravelDirGeneralController@buscarEvaluado');
-
-	// ver el perfil del evaluado seleccionado
-	Route::post('dirGeneral/evaluado/perfil', 'DirGeneral\LaravelDirGeneralController@perfilEvaluado');
-
-	// PDF
-	Route::get('dirGeneral/evaluado/perfil/pdf/{id}', 'DirGeneral\LaravelDirGeneralController@perfilEvaluadoPdf');
-
-	// busqueda de dependencias
-	Route::get('dirGeneral/dependencias', 'DirGeneral\LaravelDirGeneralController@dependencias');
-
-	// buscar dependencia
-	Route::post('dirGeneral/buscarDependencia', 'DirGeneral\LaravelDirGeneralController@buscarDependencia');
-
-	// ver perfil de la dependencia seleccionada
-	Route::post('dirGeneral/dependencia/perfil', 'DirGeneral\LaravelDirGeneralController@perfilDependencia');
-
-	// grafica de evaluaciones pendientes por áreas
-	Route::post('dirGeneral/graficaEvaluacionesPendientes', 'DirGeneral\LaravelDirGeneralController@graficaEvaluacionesPendientes');
-
-	// ver pantalla anexa de dashboard
-	Route::get('dirGeneral/1', 'DirGeneral\LaravelDirGeneralAnexoController@index');
-
-	// grafica productividad
-	Route::post('dirGeneral/1/graficaEvaluadosProductividad', 'DirGeneral\LaravelDirGeneralAnexoController@graficaProductividad');
+	include app_path() . '\Http\Routes\routes_dirGeneral.php';
 });
 
 // expedientes por entregar a custodia
