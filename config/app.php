@@ -137,6 +137,10 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Illuminate\Html\HtmlServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
+        Anouar\Fpdf\FpdfServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -149,7 +153,8 @@ return [
         Sise\Providers\AreasRepositorioServiceProvider::class,
         Sise\Providers\PuestosRepositorioServiceProvider::class,
         Sise\Providers\ProgramadosRepositorioServiceProvider::class,
-        Sise\Providers\EvaluadosRepositorioServiceProvider::class
+        Sise\Providers\EvaluadosRepositorioServiceProvider::class,
+        Sise\Providers\DependenciasRepositorioServiceProvider::class
     ],
 
     /*
@@ -199,7 +204,10 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
         'Html'      => Illuminate\Html\HtmlFacade::class,
-        'Form'      => Illuminate\Html\FormFacade::class
+        'Form'      => Illuminate\Html\FormFacade::class,
+        'Image'     => Intervention\Image\Facades\Image::class,
+        'Fpdf'      => Anouar\Fpdf\Facades\Fpdf::class,
+        'Excel'     => Maatwebsite\Excel\Facades\Excel::class
     ],
 
 ];

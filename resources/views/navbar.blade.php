@@ -21,7 +21,7 @@
 				<span class="media margin-none">
 					<span class="pull-left"></span>
 					<span class="media-body">
-						<span class="strong">{{ Request::session()->get('trabajador')->getNombreCompleto() }} </span><span class="caret"></span>
+						<span class="strong"> </span><span class="caret"></span>
 					</span>
 				</span>
 			</a>

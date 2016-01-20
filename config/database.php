@@ -93,8 +93,17 @@ return [
             'password' => env('DB_PASSWORD', 'Theesco10'),
             'charset'  => 'utf8',
             'prefix'   => '',
-        ]
+        ],
 
+        'merk_ceccc' => [
+            'driver'   => 'sqlsrv',
+            'host'     => env('DB_HOST', 'localhost'),
+            'database' => env('DB_DATABASE', 'merk_ceccc'),
+            'username' => env('DB_USERNAME', 'sa'),
+            'password' => env('DB_PASSWORD', '123123x'),
+            'charset'  => 'utf8',
+            'prefix'   => '',
+        ]
     ],
 
     /*

@@ -5,9 +5,13 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=5.5.9",
+        "php": ">=5.6",
         "laravel/framework": "5.1.*",
-        "illuminate/html": "5.*"
+        "illuminate/html": "5.*",
+        "intervention/image": "^2.3",
+        "anouar/fpdf": "1.0.2",
+        "maatwebsite/excel": "~2.0.0",
+        "barryvdh/laravel-ide-helper": "v2.1.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -20,7 +24,7 @@
             "database"
         ],
         "psr-4": {
-            "Sise\\": "app/"
+            "Sise\\": "app"
         }
     },
     "autoload-dev": {

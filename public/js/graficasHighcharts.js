@@ -1,13 +1,31 @@
-function grafica (dibujarEn, tipo, titulo, tituloXAxis, tituloYAxis, series) {
+Highcharts.setOptions({
+    lang: {
+        drillUpText: '<< Regresar a {series.name}'
+    }
+});
+
+function grafica (dibujarEn, tipo, ancho, alto, titulo, tituloXAxis, tituloYAxis, series, drilldown) {
 	var opcionesGrafica = {
 	    chart: {
 	        renderTo: dibujarEn,
-	        type:     tipo
+	        type:     tipo,
+            width:    ancho,
+            height:   alto
 	    },
+        credits: {
+            enabled: false
+        },
 	    title: {
 	    	text: titulo
 	    },
 	    xAxis: {
+            type:  'category',
+            labels: {
+                autoRotation: [-10, -20, -30, -40, -50, -60, -70, -80, -90],
+                style: {
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            },
             title: {
                 text: tituloXAxis
             },
@@ -19,27 +37,46 @@ function grafica (dibujarEn, tipo, titulo, tituloXAxis, tituloYAxis, series) {
             }
         },
         plotOptions: {
-		    line: {
-		        dataLabels: {
-		            enabled: true
-		        }
-		    }
+		    series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true
+                },
+                allowPointSelect: true,
+                cursor: 'pointer'
+            }
 		},
-		series: series
+		series:    series
 	};
+
+    if(drilldown !== null) {
+        opcionesGrafica.drilldown = drilldown;
+    }
 
 	var graficaHighcharts = new Highcharts.Chart(opcionesGrafica);
 }
 
-function graficaMixta(dibujarEn, titulo, tituloXAxis, tituloYAxis, series) {
+function graficaMixta(dibujarEn, ancho, alto,  titulo, tituloXAxis, tituloYAxis, series, drilldown) {
 	var opcionesGrafica = {
 	    chart: {
-	        renderTo: dibujarEn
+	        renderTo: dibujarEn,
+            width:    ancho,
+            height:   alto
 	    },
+        credits: {
+            enabled: false
+        },
 	    title: {
 	    	text: titulo
 	    },
 	    xAxis: {
+	    	type:  'category',
+            labels: {
+                autoRotation: [-10, -20, -30, -40, -50, -60, -70, -80, -90],
+                style: {
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            },
             title: {
                 text: tituloXAxis
             },
@@ -51,13 +88,15 @@ function graficaMixta(dibujarEn, titulo, tituloXAxis, tituloYAxis, series) {
             }
         },
         plotOptions: {
-		    line: {
-		        dataLabels: {
-		            enabled: true
-		        }
-		    }
+		     series: {
+                borderWidth: 0,
+
+                allowPointSelect: true,
+                cursor: 'pointer'
+            }
 		},
-		series: series
+		series:    series,
+		drilldown: drilldown
 	};
 
 	var graficaHighcharts = new Highcharts.Chart(opcionesGrafica);

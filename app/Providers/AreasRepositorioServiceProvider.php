@@ -3,7 +3,7 @@
 namespace Sise\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Sise\Usuarios\AreasRepositorioLaravelSQLServer;
+use Sise\Infraestructura\Usuarios\AreasRepositorioLaravelSQLServer;
 
 class AreasRepositorioServiceProvider extends ServiceProvider
 {
@@ -24,7 +24,7 @@ class AreasRepositorioServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Sise\Usuarios\AreasRepositorioInterface', function($app) {
+        $this->app->bind('Sise\Infraestructura\Usuarios\AreasRepositorioInterface', function($app) {
             return new AreasRepositorioLaravelSQLServer();
         });
     }

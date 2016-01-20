@@ -3,8 +3,12 @@
 	<div class="user-action user-action-btn-navbar pull-left border-right">
 		<button class="btn btn-sm btn-navbar btn-primary btn-stroke"><i class="fa fa-bars fa-2x"></i></button>
 	</div>
+	&nbsp;
+	<div class="navbar-header">
+      	<a href="{{ url('dirGeneral/') }}"><img src="{{ asset('public/img/logo_255.png') }}" border="0" alt="Centro Estatal de Control de Confianza Certificado"></a>
+    </div>
 
-	<form id="formBusquedaGeneral" name="formBusquedaGeneral">
+	{{-- <form id="formBusquedaGeneral" name="formBusquedaGeneral">
 	  	<div class="col-md-3 visible-md visible-lg padding-none">
 	    	<div class="input-group innerL">
 	      		<input id="txtBusqueda" name="txtBusqueda" type="text" class="form-control input-sm" placeholder="Busqueda rápida" autocomplete="off">
@@ -14,7 +18,7 @@
 	    	</div><!-- /input-group -->
 	  	</div>
   	</form>
-
+ --}}
   	<div class="user-action pull-right menu-right-hidden-xs menu-left-hidden-xs">
 		<div class="dropdown username hidden-xs pull-left">
 			<a class="dropdown-toggle  dropdown-hover" data-toggle="dropdown" href="#">

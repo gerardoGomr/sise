@@ -13,21 +13,11 @@
 		<meta charset="utf-8" />
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
-		<!--
-		**********************************************************
-		In development, use the LESS files and the less.js compiler
-		instead of the minified CSS loaded by default.
-		**********************************************************
-		-->
 
-		<!-- <link rel="stylesheet/less" href="/assets/less/admin/module.admin.stylesheet-complete.sidebar_type.fusion.less" /> -->
-
-
-		<!--[if lt IE 9]><link rel="stylesheet" href="..//assets/components/library/bootstrap/css/bootstrap.min.css" /><![endif]-->
-		<link rel="shortcut icon" href="/img/logo.png" />
+		<link rel="shortcut icon" href="{{ asset('public/img/logo.png') }}" />
 
 		<!-- CSS DEFINITION -->
-		<link rel="stylesheet" type="text/css" href="/assets/css/admin/admin.css" />
+		<link rel="stylesheet" type="text/css" href="{{ asset('public/assets/css/admin/admin.css') }}" />
 		@yield('css')
 
 		<script>
@@ -97,25 +87,25 @@
 			var themerPrimaryColor = primaryColor;
 		</script>
 
-		<script type="text/javascript" src="/assets/components/plugins/ajaxify/script.min.js?v=v1.9.6&sv=v0.0.1"></script>
-		<script type="text/javascript" src="/assets/components/library/jquery/jquery.min.js?v=v1.9.6&sv=v0.0.1"></script>
-		<script type="text/javascript" src="/assets/components/library/modernizr/modernizr.js?v=v1.9.6&sv=v0.0.1"></script>
-		<script type="text/javascript" src="/assets/components/library/bootstrap/js/bootstrap.min.js?v=v1.9.6&sv=v0.0.1"></script>
-		<script type="text/javascript" src="/assets/components/library/jquery/jquery-migrate.min.js?v=v1.9.6&sv=v0.0.1"></script>
+		<script type="text/javascript" src="{{ asset('public/assets/components/plugins/ajaxify/script.min.js?v=v1.9.6&sv=v0.0.1') }}"></script>
+		<script type="text/javascript" src="{{ asset('public/assets/components/library/jquery/jquery.min.js?v=v1.9.6&sv=v0.0.1') }}"></script>
+		<script type="text/javascript" src="{{ asset('public/assets/components/library/modernizr/modernizr.js?v=v1.9.6&sv=v0.0.1') }}"></script>
+		<script type="text/javascript" src="{{ asset('public/assets/components/library/bootstrap/js/bootstrap.min.js?v=v1.9.6&sv=v0.0.1') }}"></script>
+		<script type="text/javascript" src="{{ asset('public/assets/components/library/jquery/jquery-migrate.min.js?v=v1.9.6&sv=v0.0.1') }}"></script>
 
-		<script type="text/javascript" src="/assets/components/plugins/nicescroll/jquery.nicescroll.min.js?v=v1.9.6&sv=v0.0.1"></script>
-		<script type="text/javascript" src="/assets/components/plugins/breakpoints/breakpoints.js?v=v1.9.6&sv=v0.0.1"></script>
-		<script type="text/javascript" src="/assets/components/plugins/ajaxify/davis.min.js?v=v1.9.6&sv=v0.0.1"></script>
-		<script type="text/javascript" src="/assets/components/plugins/ajaxify/jquery.lazyjaxdavis.min.js?v=v1.9.6&sv=v0.0.1"></script>
-		<script type="text/javascript" src="/assets/components/plugins/preload/pace/pace.min.js?v=v1.9.6&sv=v0.0.1"></script>
-		<script type="text/javascript" src="/assets/components/modules/admin/modals/assets/js/bootbox.min.js?v=v1.9.6&sv=v0.0.1"></script>
-		<script type="text/javascript" src="/assets/components/plugins/less-js/less.min.js?v=v1.9.6&sv=v0.0.1"></script>
+		<script type="text/javascript" src="{{ asset('public/assets/components/plugins/nicescroll/jquery.nicescroll.min.js?v=v1.9.6&sv=v0.0.1') }}"></script>
+		<script type="text/javascript" src="{{ asset('public/assets/components/plugins/breakpoints/breakpoints.js?v=v1.9.6&sv=v0.0.1') }}"></script>
+		<script type="text/javascript" src="{{ asset('public/assets/components/plugins/ajaxify/davis.min.js?v=v1.9.6&sv=v0.0.1') }}"></script>
+		<script type="text/javascript" src="{{ asset('public/assets/components/plugins/ajaxify/jquery.lazyjaxdavis.min.js?v=v1.9.6&sv=v0.0.1') }}"></script>
+		<script type="text/javascript" src="{{ asset('public/assets/components/plugins/preload/pace/pace.min.js?v=v1.9.6&sv=v0.0.1') }}"></script>
+		<script type="text/javascript" src="{{ asset('public/assets/components/modules/admin/modals/assets/js/bootbox.min.js?v=v1.9.6&sv=v0.0.1') }}"></script>
+		<script type="text/javascript" src="{{ asset('public/assets/components/plugins/less-js/less.min.js?v=v1.9.6&sv=v0.0.1') }}"></script>
 
-		<script type="text/javascript" src="/assets/components/core/js/sidebar.main.init.js?v=v1.9.6"></script>
-		<script type="text/javascript" src="/assets/components/core/js/sidebar.discover.init.js?v=v1.9.6"></script>
-		<script type="text/javascript" src="/assets/components/core/js/sidebar.kis.init.js?v=v1.9.6"></script>
-		<script type="text/javascript" src="/assets/components/core/js/core.init.js?v=v1.9.6"></script>
-		<script type="text/javascript" src="/assets/components/core/js/animations.init.js?v=v1.9.6"></script>
+		<script type="text/javascript" src="{{ asset('public/assets/components/core/js/sidebar.main.init.js?v=v1.9.6') }}"></script>
+		<script type="text/javascript" src="{{ asset('public/assets/components/core/js/sidebar.discover.init.js?v=v1.9.6') }}"></script>
+		<script type="text/javascript" src="{{ asset('public/assets/components/core/js/sidebar.kis.init.js?v=v1.9.6') }}"></script>
+		<script type="text/javascript" src="{{ asset('public/assets/components/core/js/core.init.js?v=v1.9.6') }}"></script>
+		<script type="text/javascript" src="{{ asset('public/assets/components/core/js/animations.init.js?v=v1.9.6') }}"></script>
 
 
 	</body>

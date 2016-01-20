@@ -15,7 +15,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
 
 		<!-- CSS DEFINITION -->
-		<link rel="stylesheet" type="text/css" href="/assets/css/admin/admin.css" />
+		<link rel="stylesheet" type="text/css" href="{{ asset('public/assets/css/admin/admin.css') }}" />
 		@yield('css')
 
 		<script type="text/javascript">
@@ -53,10 +53,10 @@
 			var themerPrimaryColor = primaryColor;
 		</script>
 
-		<script type="text/javascript" src="/assets/components/library/jquery/jquery.min.js?v=v1.9.6&sv=v0.0.1"></script>
-		<script type="text/javascript" src="/assets/components/library/bootstrap/js/bootstrap.min.js?v=v1.9.6&sv=v0.0.1"></script>
-		<script type="text/javascript" src="/assets/components/modules/admin/modals/assets/js/bootbox.min.js?v=v1.9.6&sv=v0.0.1"></script>
-		<script type="text/javascript" src="/assets/components/library/jquery/jquery-migrate.min.js?v=v1.9.6&sv=v0.0.1"></script>
+		<script type="text/javascript" src="{{ asset('public/assets/components/library/jquery/jquery.min.js?v=v1.9.6&sv=v0.0.1') }}"></script>
+		<script type="text/javascript" src="{{ asset('public/assets/components/library/bootstrap/js/bootstrap.min.js?v=v1.9.6&sv=v0.0.1') }}"></script>
+		<script type="text/javascript" src="{{ asset('public/assets/components/modules/admin/modals/assets/js/bootbox.min.js?v=v1.9.6&sv=v0.0.1') }}"></script>
+		<script type="text/javascript" src="{{ asset('public/assets/components/library/jquery/jquery-migrate.min.js?v=v1.9.6&sv=v0.0.1') }}"></script>
 		@yield('js')
 	</body>
 </html>

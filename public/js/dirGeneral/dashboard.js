@@ -5,27 +5,58 @@
 
 		// opciones para búsquedas ajax
 		var datos = {
-			anio:  '2015',
+			anio:  $('#anioActual').text(),
 			_token: _token
 		};
 
 		// graficar 1a vez
 		graficarProgramados(datos);
 		graficarEvaluaciones(datos);
+		graficarEvaluacionesPendientes(datos);
 
 		/**************************** PROGRAMADOS **************************************/
-		setInterval(graficarProgramados, 8000, datos);
-		/*****************************************************************************/
+		// setInterval(graficarProgramados, 16000, datos);
+		// /*****************************************************************************/
 
-		/**************************** EVALUADOS **************************************/
-		setInterval(graficarEvaluaciones, 8000, datos);
-		/*****************************************************************************/
+		// /**************************** EVALUADOS **************************************/
+		// setInterval(graficarEvaluaciones, 16000, datos);
+		// /*****************************************************************************/
 
-		setInterval(totalProgramados, 8000, datos);
+		// setInterval(totalProgramados, 16000, datos);
 
-		setInterval(totalEvaluacionesProceso, 8000, datos);
+		// setInterval(totalEvaluacionesProceso, 16000, datos);
 
-		setInterval(totalEvaluaciones, 8000, datos);
+		// setInterval(totalEvaluaciones, 16000, datos);
+
+		// setInterval(resultadosIntegrales, 16000, datos);
+
+		// evento change de select
+		$('#anio').on('change', function() {
+			// setear el nuevo año
+			datos.anio = $(this).val();
+			// cambiar leyenda de año
+			$('#anioActual').text($(this).val());
+			$('.fecha').text($(this).val());
+
+			// cargar
+			graficarProgramados(datos);
+			graficarEvaluaciones(datos);
+			totalProgramados(datos);
+			totalEvaluacionesProceso(datos);
+			totalEvaluaciones(datos);
+			resultadosIntegrales(datos);
+			graficarEvaluacionesPendientes(datos);
+		});
+
+		setTimeout(function(){
+			$('#sparkline').sparkline('html', {
+			    type:       'bar',
+			    height:     '70',
+			    barWidth:   10,
+			    barSpacing: 8,
+			    colorMap:   $('#sparkline').data('colors').split(",")
+			});
+		}, 600);
 	});
 
 	/**
@@ -48,6 +79,21 @@
 		var busqueda = ajax($('#urlTotalEvaluaciones').val(), 'post', 'html', datos, 'cargar', '', 'totalEvaluaciones');
 	}
 
+	function resultadosIntegrales(datos)
+	{
+		var busqueda = ajax($('#urlResultadosIntegrales').val(), 'post', 'html', datos, 'cargar', '', 'dvResultadosIntegrales');
+
+		setTimeout(function(){
+			$('#sparkline').sparkline('html', {
+			    type:       'bar',
+			    height:     '70',
+			    barWidth:   10,
+			    barSpacing: 8,
+			    colorMap:   $('#sparkline').data('colors').split(",")
+			});
+		}, 1000);
+	}
+
 	/**
 	 * graficar programados
 	 * @param  object datos
@@ -60,11 +106,10 @@
 		busqueda.done(function(resultado) {
 			console.log('exito');
 
-			graficaMixta('dvGraficaProgramadosMensual', 'Programados - Mensual', 'Meses', 'Total', resultado);
+			graficaMixta('dvGraficaProgramadosMensual', null, 350, 'Programados - Mensual', 'Meses', 'Total', resultado.series, resultado.drilldown);
 		})
 		.fail(function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log(errorThrown);
-			bootbox.alert('Imposible realizar la operación solicitada');
 		});
 	}
 
@@ -80,11 +125,29 @@
 		busquedaProgr.done(function(resultado) {
 			console.log('exito');
 
-			grafica('dvGraficaEvaluadosMensual', 'line', 'Evaluaciones - Mensual', 'Meses', 'Total', resultado);
+			grafica('dvGraficaEvaluadosMensual', 'area', null, 350, 'Evaluaciones - Mensual', 'Meses', 'Total', resultado, null);
 		})
 		.fail(function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log(errorThrown);
-			bootbox.alert('Imposible realizar la operación solicitada');
+		});
+	}
+
+	/**
+	 * graficar las evaluaciones pendientes por area
+	 * @param  object datos
+	 * @return
+	 */
+	function graficarEvaluacionesPendientes(datos)
+	{
+		var busquedaEval = ajax($('#urlGraficaEvaluacionesPendientes').val(), 'post', 'json', datos, 'guardar');
+
+		busquedaEval.done(function(resultado) {
+			console.log('exito');
+
+			grafica('dvGraficaEvaluacionesPendientes', 'column', null, null, 'Evaluaciones pendientes por área', 'Áreas', 'Total', resultado.series, resultado.drilldown);
+		})
+		.fail(function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(errorThrown);
 		});
 	}
 }(window.jQuery, window, document));

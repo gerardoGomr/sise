@@ -3,7 +3,7 @@
 namespace Sise\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Sise\Usuarios\PuestosRepositorioLaravelSQLServer;
+use Sise\Infraestructura\Usuarios\PuestosRepositorioLaravelSQLServer;
 
 class PuestosRepositorioServiceProvider extends ServiceProvider
 {
@@ -24,7 +24,7 @@ class PuestosRepositorioServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Sise\Usuarios\PuestosRepositorioInterface', function($app) {
+        $this->app->bind('Sise\Infraestructura\Usuarios\PuestosRepositorioInterface', function($app) {
             return new PuestosRepositorioLaravelSQLServer();
         });
     }

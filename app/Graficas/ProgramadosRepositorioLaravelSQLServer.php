@@ -12,7 +12,7 @@ class ProgramadosRepositorioLaravelSQLServer implements ProgramadosRepositorioIn
 	 * @param  int $anio
 	 * @return int
 	 */
-	public function obtenerTotalProgramados($anio = 2015)
+	public function obtenerTotalProgramados($anio)
 	{
 		try {
 			$programados = DB::connection('Integral')
@@ -38,7 +38,7 @@ class ProgramadosRepositorioLaravelSQLServer implements ProgramadosRepositorioIn
 	}
 
 	/**
-	 * obtener datos programados mensualmente
+	 * obtener el total de programados por mes del año especificado
 	 * @param  int   $anio
 	 * @return array
 	 */
@@ -49,23 +49,25 @@ class ProgramadosRepositorioLaravelSQLServer implements ProgramadosRepositorioIn
 
 		try {
 			$programados = DB::connection('Integral')
-				->table('g_estadistica_diaria_programados')
-				->select(DB::raw('DATENAME(MONTH, fechacorte) AS Mes, YEAR(fechacorte) AS Anio, SUM(programados) AS Programados, SUM(prioridaduno) AS PrioridadUno, SUM(subsecuentes) AS Subsecuentes, DATEPART(MONTH, fechacorte) AS NombreMes'))
-				->where(DB::raw('YEAR(fechacorte)'), $anio)
-				->groupBy(DB::raw('DATENAME(MONTH, fechacorte), YEAR(fechacorte), DATEPART(MONTH, fechacorte)'))
-				->orderBy(DB::raw('DATEPART(MONTH, fechacorte)'))
+				->table('estadistica_diaria_programados')
+				->select(DB::raw('DATENAME(MONTH, FechaEvaluacion) AS Mes, YEAR(FechaEvaluacion) AS Anio, SUM(Programados) AS Programados, SUM(PrimeraVez) AS PrioridadUno, SUM(Subsecuentes) AS Subsecuentes, SUM(Hombre) AS Hombres, SUM(Mujeres) AS Mujeres, DATEPART(MONTH, FechaEvaluacion) AS NombreMes'))
+				->where(DB::raw('YEAR(FechaEvaluacion)'), $anio)
+				->groupBy(DB::raw('DATENAME(MONTH, FechaEvaluacion), YEAR(FechaEvaluacion), DATEPART(MONTH, FechaEvaluacion)'))
+				->orderBy(DB::raw('DATEPART(MONTH, FechaEvaluacion)'))
 				->get();
 
 			$totalProgramados = count($programados);
 
 			if($totalProgramados > 0) {
 				foreach ($programados as $programados) {
-					$resultado['Fecha']  	   = $programados->Mes . ' - ' . $programados->Anio;
+					$resultado['Periodo']      = $programados->Mes . ' - ' . $programados->Anio;
 					$resultado['Programados']  = $programados->Programados;
 					$resultado['PrioridadUno'] = $programados->PrioridadUno;
 					$resultado['Subsecuentes'] = $programados->Subsecuentes;
+					$resultado['Hombres']      = $programados->Hombres;
+					$resultado['Mujeres']      = $programados->Mujeres;
 
-					$resultados[] = $resultado;
+					$resultados[]              = $resultado;
 				}
 
 				return $resultados;

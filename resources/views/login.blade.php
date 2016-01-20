@@ -2,7 +2,7 @@
 
 @section('contenido')
 	<div class="login">
-		<div class="placeholder text-center"><img src="/img/logo_255.png" border="0"></div>
+		<div class="placeholder text-center"><img src="{{ asset('public/img/logo_255.png') }}" border="0"></div>
 		<div class="panel panel-default col-sm-6 col-sm-offset-3">
 
 			<div class="panel-body">

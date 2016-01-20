@@ -27,5 +27,6 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'usuarioLogueado' => \Sise\Http\Middleware\UsuarioLogueado::class,
+        'ip'              => \Sise\Http\Middleware\DirGeneralRestriccionIp::class
     ];
 }

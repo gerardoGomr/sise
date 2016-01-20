@@ -3,7 +3,7 @@
 namespace Sise\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Sise\Usuarios\TrabajadoresRepositorioLaravelSQLServer;
+use Sise\Infraestructura\Usuarios\TrabajadoresRepositorioLaravelSQLServer;
 
 class TrabajadoresRepositorioServiceProvider extends ServiceProvider
 {
@@ -24,7 +24,7 @@ class TrabajadoresRepositorioServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Sise\Usuarios\TrabajadoresRepositorioInterface', function($app) {
+        $this->app->bind('Sise\Infraestructura\Usuarios\TrabajadoresRepositorioInterface', function($app) {
             return new TrabajadoresRepositorioLaravelSQLServer();
         });
     }
