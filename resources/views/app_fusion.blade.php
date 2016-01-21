@@ -47,7 +47,7 @@
 			<!-- Footer -->
 			<div id="footer" class="hidden-print">
 				<!--  Copyright Line -->
-				<div class="copy">&copy; 2015 - <a href="#">SISE v2.0</a> - Sistema Integral de Seguimiento de Evaluaciones - Unidad de Informática</div>
+				<div class="copy">&copy; {{ date('Y') }} - <a href="#">SISE v2.0</a> - Sistema Integral de Seguimiento de Evaluaciones - Unidad de Informática</div>
 				<!--  End Copyright Line -->
 			</div>
 			<!-- // Footer END -->

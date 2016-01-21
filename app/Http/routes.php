@@ -10,29 +10,32 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-// rutas del sistema
 
+// restringir rutas que son accesadas mediante el login
 Route::group([
 		'prefix'     => '/',
 		'middleware' => 'usuarioLogueado'
 	],  function() {
 
+	// incluir archivo de rutas de recursos humanos
 	include app_path() . '\Http\Routes\routes_recHumanos.php';
 
 	// pantalla principal
 	Route::get('/', 'PrincipalController@index');
-
-	############################# psicologia
-	Route::get('/psicologia', 'Psicologia\PsicologiaController@index');
 });
 
+// restringir rutas que son accesadas mediante ciertas IP
 Route::group([
 		'prefix'     => '/',
 		'middleware' => 'ip'
 	],  function() {
 
+	// incluír rutas de dirección general
 	include app_path() . '\Http\Routes\routes_dirGeneral.php';
 });
+
+// rutas custodia
+include app_path() . '\Http\Routes\routes_custodia.php';
 
 // expedientes por entregar a custodia
 Route::get('/archivo/{anio?}', 'Archivo\LaravelArchivoController@index');
