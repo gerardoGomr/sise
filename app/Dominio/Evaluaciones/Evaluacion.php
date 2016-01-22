@@ -11,47 +11,47 @@ use Sise\Dominio\Usuarios\Puesto;
  */
 class Evaluacion
 {
-	/**
-	 * id
-	 * @var int
-	 */
-	protected $id;
+    /**
+     * id
+     * @var int
+     */
+    protected $id;
 
-	/**
-	 * Dependencia
-	 * @var Dependencia
-	 */
-	protected $dependencia;
+    /**
+     * Dependencia
+     * @var Dependencia
+     */
+    protected $dependencia;
 
-	/**
-	 * Puesto
-	 * @var Puesto
-	 */
-	protected $puesto;
+    /**
+     * Puesto
+     * @var Puesto
+     */
+    protected $puesto;
 
-	/**
-	 * mando
-	 * @var string
-	 */
-	protected $mando;
+    /**
+     * mando
+     * @var string
+     */
+    protected $mando;
 
-	/**
-	 * rango
-	 * @var string
-	 */
-	protected $rango;
+    /**
+     * rango
+     * @var string
+     */
+    protected $rango;
 
-	/**
-	 * especialidad
-	 * @var string
-	 */
-	protected $especialidad;
+    /**
+     * especialidad
+     * @var string
+     */
+    protected $especialidad;
 
-	/**
-	 * fotografía de evaluado
-	 * @var Fotografia
-	 */
-	protected $fotografia;
+    /**
+     * fotografía de evaluado
+     * @var Fotografia
+     */
+    protected $fotografia;
 
     /**
      * resultado integral de evaluación
@@ -60,17 +60,66 @@ class Evaluacion
     protected $resultadoIntegral;
 
     /**
+     * @var Elemento
+     */
+    protected $elemento;
+
+    /**
+     * @var int
+     */
+    protected $numeroEvaluacion;
+
+    /**
+     * @var bool
+     */
+    protected $entregaMedicoToxicologica;
+
+    /**
+     * @var bool
+     */
+    protected $entregaPsicologia;
+
+    /**
+     * @var bool
+     */
+    protected $entregaSocioeconomicos;
+
+    /**
+     * @var bool
+     */
+    protected $entregaPoligrafia;
+
+    /**
+     * @var bool
+     */
+    protected $entregaFichaIngreso;
+
+    /**
+     * @var bool
+     */
+    protected $entregaResultadoIntegral;
+
+    /**
+     * @var Serial
+     */
+    protected $serialMedico;
+
+    /**
+     * @var Serial
+     */
+    protected $serial;
+
+    /**
      * Evaluacion constructor.
      * @param null $id
      */
-	public function __construct($id = null)
-	{
+    public function __construct($id = null)
+    {
         $this->id = $id;
-	}
+    }
 
     /**
      * Gets the id.
-     *
      * @return int
      */
     public function getId()
@@ -80,7 +129,6 @@ class Evaluacion
 
     /**
      * Sets the id.
-     *
      * @param int $id the id
      */
     public function setId($id)
@@ -90,7 +138,6 @@ class Evaluacion
 
     /**
      * Gets the Dependencia.
-     *
      * @return Dependencia
      */
     public function getDependencia()
@@ -100,7 +147,6 @@ class Evaluacion
 
     /**
      * Sets the Dependencia.
-     *
      * @param Dependencia $dependencia the dependencia
      */
     public function setDependencia(Dependencia $dependencia)
@@ -110,7 +156,6 @@ class Evaluacion
 
     /**
      * Gets the Puesto.
-     *
      * @return Puesto
      */
     public function getPuesto()
@@ -120,7 +165,6 @@ class Evaluacion
 
     /**
      * Sets the Puesto.
-     *
      * @param Puesto $puesto the puesto
      */
     public function setPuesto(Puesto $puesto)
@@ -130,7 +174,6 @@ class Evaluacion
 
     /**
      * Gets the mando.
-     *
      * @return string
      */
     public function getMando()
@@ -140,7 +183,6 @@ class Evaluacion
 
     /**
      * Sets the mando.
-     *
      * @param string $mando the mando
      */
     public function setMando($mando)
@@ -150,7 +192,6 @@ class Evaluacion
 
     /**
      * Gets the rango.
-     *
      * @return string
      */
     public function getRango()
@@ -160,7 +201,6 @@ class Evaluacion
 
     /**
      * Sets the rango.
-     *
      * @param string $rango the rango
      */
     public function setRango($rango)
@@ -170,7 +210,6 @@ class Evaluacion
 
     /**
      * Gets the especialidad.
-     *
      * @return string
      */
     public function getEspecialidad()
@@ -180,7 +219,6 @@ class Evaluacion
 
     /**
      * Sets the especialidad.
-     *
      * @param string $especialidad the especialidad
      */
     public function setEspecialidad($especialidad)
@@ -190,7 +228,6 @@ class Evaluacion
 
     /**
      * Gets the fotografía de evaluado.
-     *
      * @return Fotografia
      */
     public function getFotografia()
@@ -200,7 +237,6 @@ class Evaluacion
 
     /**
      * Sets the fotografía de evaluado.
-     *
      * @param Fotografia $fotografia the fotografia
      */
     public function setFotografia(Fotografia $fotografia)
@@ -222,5 +258,178 @@ class Evaluacion
     public function setResultadoIntegral(ResultadoIntegral $resultadoIntegral)
     {
         $this->resultadoIntegral = $resultadoIntegral;
+    }
+
+    /**
+     * @return Elemento
+     */
+    public function getElemento()
+    {
+        return $this->elemento;
+    }
+
+    /**
+     * @param Elemento $elemento
+     */
+    public function setElemento(Elemento $elemento)
+    {
+        $this->elemento = $elemento;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumeroEvaluacion()
+    {
+        return $this->numeroEvaluacion;
+    }
+
+    /**
+     * @param int $numeroEvaluacion
+     */
+    public function setNumeroEvaluacion($numeroEvaluacion)
+    {
+        $this->numeroEvaluacion = $numeroEvaluacion;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function entregoMedico()
+    {
+        return $this->entregaMedicoToxicologica;
+    }
+
+    /**
+     * @param boolean $entregaMedicoToxicologica
+     */
+    public function setEntregaMedicoToxicologica($entregaMedicoToxicologica)
+    {
+        $this->entregaMedicoToxicologica = $entregaMedicoToxicologica;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function entregoPsicologia()
+    {
+        return $this->entregaPsicologia;
+    }
+
+    /**
+     * @param boolean $entregaPsicologia
+     */
+    public function setEntregaPsicologia($entregaPsicologia)
+    {
+        $this->entregaPsicologia = $entregaPsicologia;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function entregoSocioeconomicos()
+    {
+        return $this->entregaSocioeconomicos;
+    }
+
+    /**
+     * @param boolean $entregaSocioeconomicos
+     */
+    public function setEntregaSocioeconomicos($entregaSocioeconomicos)
+    {
+        $this->entregaSocioeconomicos = $entregaSocioeconomicos;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function entregoPoligrafia()
+    {
+        return $this->entregaPoligrafia;
+    }
+
+    /**
+     * @param boolean $entregaPoligrafia
+     */
+    public function setEntregaPoligrafia($entregaPoligrafia)
+    {
+        $this->entregaPoligrafia = $entregaPoligrafia;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function entregoFichaIngreso()
+    {
+        return $this->entregaFichaIngreso;
+    }
+
+    /**
+     * @param boolean $entregaFichaIngreso
+     */
+    public function setEntregaFichaIngreso($entregaFichaIngreso)
+    {
+        $this->entregaFichaIngreso = $entregaFichaIngreso;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function entregoResultadoIntegral()
+    {
+        return $this->entregaResultadoIntegral;
+    }
+
+    /**
+     * @param boolean $entregaResultadoIntegral
+     */
+    public function setEntregaResultadoIntegral($entregaResultadoIntegral)
+    {
+        $this->entregaResultadoIntegral = $entregaResultadoIntegral;
+    }
+
+    /**
+     * @return Serial
+     */
+    public function getSerialMedico()
+    {
+        return $this->serialMedico;
+    }
+
+    /**
+     * @param Serial $serialMedico
+     */
+    public function setSerialMedico(Serial $serialMedico)
+    {
+        $this->serialMedico = $serialMedico;
+    }
+
+    /**
+     * @return Serial
+     */
+    public function getSerial()
+    {
+        return $this->serial;
+    }
+
+    /**
+     * @param Serial $serial
+     */
+    public function setSerial(Serial $serial)
+    {
+        $this->serial = $serial;
+    }
+
+    /**
+     * verifica que tenga todos los elementos
+     * @return bool
+     */
+    public function expedienteCompleto()
+    {
+        if ( $this->entregoMedico() === false || $this->entregoPsicologia() === false || $this->entregoSocioeconomicos() === false || $this->entregaPoligrafia() === false || $this->entregoFichaIngreso() === false || $this->entregoResultadoIntegral() === false ) {
+            return false;
+        }
+
+        return true;
     }
 }

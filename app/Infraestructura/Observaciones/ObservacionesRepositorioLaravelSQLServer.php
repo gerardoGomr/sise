@@ -57,6 +57,6 @@ class ObservacionesRepositorioLaravelSQLServer implements ObservacionesRepositor
      */
     public function obtenerTotalDeObservacionesPorAnalistas(array $parametos)
     {
-        
+
     }
 }

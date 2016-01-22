@@ -6,7 +6,7 @@ use Sise\Dominio\Personas\Persona;
 /**
  * @author Gerardo Adrián Gómez Ruiz
  */
-abstract class Elemento extends Persona
+class Elemento extends Persona
 {
 	/**
 	 * idElemento
@@ -161,7 +161,7 @@ abstract class Elemento extends Persona
      *
      * @param Escolaridad $escolaridad the escolaridad
      */
-    public function setEscolaridad(Escolari $escolaridad)
+    public function setEscolaridad(Escolaridad $escolaridad)
     {
         $this->escolaridad = $escolaridad;
     }
