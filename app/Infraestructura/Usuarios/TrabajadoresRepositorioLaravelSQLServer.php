@@ -233,6 +233,10 @@ class TrabajadoresRepositorioLaravelSQLServer implements TrabajadoresRepositorio
 		}
 	}
 
+	/**
+	 * @param Trabajador $trabajador
+	 * @return bool
+	 */
 	public function modificarActivo(Trabajador $trabajador)
 	{
 		try {

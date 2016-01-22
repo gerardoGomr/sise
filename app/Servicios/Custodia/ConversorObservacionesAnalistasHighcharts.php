@@ -3,11 +3,11 @@ namespace Sise\Servicios\Custodia;
 use Sise\Servicios\TipoConversor;
 
 /**
- * Class ConversorObservacionesHighcharts
+ * Class ConversorObservacionesAnalistasHighcharts
  * @package Sise\Servicios\Custodia
  * @author  Gerardo Adrián Gómez Ruiz
  */
-class ConversorObservacionesHighcharts implements TipoConversor
+class ConversorObservacionesAnalistasHighcharts implements TipoConversor
 {
     /**
      * convertir un arreglo en otro con cierto formato

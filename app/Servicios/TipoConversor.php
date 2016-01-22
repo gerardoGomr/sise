@@ -6,7 +6,7 @@ namespace Sise\Servicios;
  * @package Sise\Servicios
  * @author  Gerardo Adrián Gómez Ruiz
  */
-interface Conversor
+interface TipoConversor
 {
     /**
      * convertir un arreglo en otro con cierto formato

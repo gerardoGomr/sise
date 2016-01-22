@@ -37,4 +37,17 @@ interface TrabajadoresRepositorioInterface
 	 * @return bool
 	 */
 	public function persistir(Trabajador $trabajador);
+
+	/**
+	 * actualizar la contraseña del trabajador
+	 * @param  Trabajador $trabajador
+	 * @return bool
+	 */
+	public function actualizarPassword(Trabajador $trabajador);
+
+	/**
+	 * @param Trabajador $trabajador
+	 * @return bool
+	 */
+	public function modificarActivo(Trabajador $trabajador);
 }

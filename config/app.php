@@ -155,7 +155,8 @@ return [
         Sise\Providers\ProgramadosRepositorioServiceProvider::class,
         Sise\Providers\EvaluadosRepositorioServiceProvider::class,
         Sise\Providers\DependenciasRepositorioServiceProvider::class,
-        Sise\Providers\ObservacionesRepositorioServiceProvider::class
+        Sise\Providers\ObservacionesRepositorioServiceProvider::class,
+        Sise\Providers\UsuariosRepositorioServiceProvider::class
     ],
 
     /*

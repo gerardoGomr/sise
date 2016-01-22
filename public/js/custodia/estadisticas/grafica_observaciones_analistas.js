@@ -7,8 +7,17 @@
 				_token: $('#_token').val()
 			};
 
+		// componente datepicker
+		$('#formAnalistas').find('input.fecha').datepicker({
+			format:    'dd/mm/yyyy',
+			autoclose: true,
+			language:  'es'
+		});
+
 		// graficar 1a vez
 		graficarObservacionesMensuales(datos);
+		// graficar analistas
+		graficarObservacionesAnalistas(datos);
 
 		// evento change de select
 		$('#anio').on('change', function() {
@@ -20,6 +29,11 @@
 
 			// cargar
 			graficarObservacionesMensuales(datos);
+		});
+
+		// buscar datos de usuario
+		$('#btnBuscar').on('click', function(event) {
+			ajax($('#formAnalistas').attr('action'), 'post', 'json', $('#formAnalistas').serialize(), 'cargar', 'analistasLoading', 'dvGraficaAnalistas');
 		});
 
 		/*setTimeout(function(){
@@ -34,42 +48,7 @@
 	});
 
 	/**
-	 * actualizar total programados
-	 * @param  object datos
-	 * @return
-	 */
-	/*function totalProgramados(datos)
-	{
-		var busqueda = ajax($('#urlTotalProgramados').val(), 'post', 'html', datos, 'cargar', '', 'totalProgramados');
-	}
-
-	function totalEvaluacionesProceso(datos)
-	{
-		var busqueda = ajax($('#urlTotalEvaluacionesProceso').val(), 'post', 'html', datos, 'cargar', '', 'totalEvaluacionesProceso');
-	}
-
-	function totalEvaluaciones(datos)
-	{
-		var busqueda = ajax($('#urlTotalEvaluaciones').val(), 'post', 'html', datos, 'cargar', '', 'totalEvaluaciones');
-	}
-
-	function resultadosIntegrales(datos)
-	{
-		var busqueda = ajax($('#urlResultadosIntegrales').val(), 'post', 'html', datos, 'cargar', '', 'dvResultadosIntegrales');
-
-		setTimeout(function(){
-			$('#sparkline').sparkline('html', {
-			    type:       'bar',
-			    height:     '70',
-			    barWidth:   10,
-			    barSpacing: 8,
-			    colorMap:   $('#sparkline').data('colors').split(",")
-			});
-		}, 1000);
-	}*/
-
-	/**
-	 * graficar programados
+	 * graficar observaciones de manera mensual
 	 * @param  object datos
 	 * @return
 	 */
@@ -81,6 +60,24 @@
 			console.log('exito');
 
 			grafica('dvGraficaObservacionesGeneral', 'column', null, 350, 'Observaciones de redacción - Mensual', 'Meses', 'Total', resultado.series, resultado.drilldown);
+		})
+		.fail(function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(errorThrown);
+		});
+	}
+
+	/**
+	 * graficar observaciones por analista
+	 * @param object datos
+     */
+	function graficarObservacionesAnalistas(datos)
+	{
+		var busqueda = ajax($('#formAnalistas').attr('action'), 'post', 'json', datos, 'guardar');
+
+		busqueda.done(function(resultado) {
+			console.log('exito');
+
+			grafica('dvGraficaAnalistas', 'column', null, 350, 'Observaciones de redacción', 'Analistas', 'Total', resultado.series, resultado.drilldown);
 		})
 		.fail(function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log(errorThrown);

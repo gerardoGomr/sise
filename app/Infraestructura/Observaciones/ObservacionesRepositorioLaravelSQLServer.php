@@ -50,4 +50,13 @@ class ObservacionesRepositorioLaravelSQLServer implements ObservacionesRepositor
             return null;
         }
     }
+
+    /**
+     * @param array $parametos
+     * @return array
+     */
+    public function obtenerTotalDeObservacionesPorAnalistas(array $parametos)
+    {
+        
+    }
 }
