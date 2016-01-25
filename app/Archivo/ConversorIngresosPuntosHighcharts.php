@@ -1,6 +1,9 @@
 <?php
 namespace Sise\Archivo;
 
+use \Ghunti\HighchartsPHP\Highchart;
+use \Ghunti\HighchartsPHP\HighchartJsExpr;
+
 /**
 * @author Guillermo Tinoco Ramos
 */
@@ -8,9 +11,10 @@ class ConversorIngresosPuntosHighcharts extends ConversorPuntos
 {
 	public function convertir($listaDatos)
 	{
-		
+		$chart = new Highchart();
 
-		foreach ($listaDatos as $indice => $datoActual) {
+		foreach ($listaDatos as $indice => $datoActual) 
+		{
 			$listaTotal[] = array('name' => 'Total', 'y' => (int)$listaDatos[$indice]['expedientes_totales'], 'drilldown' => 'detalleTotal');
 			
 			$listaTotalDetalle[] = array('name' => 'Ingresos', 'y' =>(int)$listaDatos[$indice]['totales_concluyo'], 'drilldown' => 'detalleEvaluacion');
@@ -56,17 +60,55 @@ class ConversorIngresosPuntosHighcharts extends ConversorPuntos
 		$listaDrilldown[] = array('id' => 'detalleEnProceso','name'=>'Expedientes', 'colorByPoint' => 'true', 'data' => $listaEnProcesoDetalle);
 		$listaDrilldown[] = array('id' => 'detalleEnArchivo','name'=>'Expedientes', 'colorByPoint' => 'true', 'data' => $listaEnArchivoDetalle);
 	
+		$chart->chart->renderTo = "dvGraficaExpedientes";
+		$chart->chart->type = "column";
 
-		$listaFinal = array('chart' => array('renderTo' => 'dvGraficaExpedientes', 'type'=> 'column'),	
-							'title' => array('text' => 'Total de ingresos en el año '),
-							'xAxis' => array('type' => 'category' , 'title' => array('text' => '<b>Evaluaciones</b>'), 'labels' =>array('margin'=>'2')),
-							'legend' => array('enabled' => false),
-							'credits' => array('enabled' => false),
-							'yAxis' => array('title' => array('text' => '<b>Cantidad</b>')),
-							
-							'plotOptions' => array('borderWith'=>0,'series' => array('dataLabels' => array('enabled'=> 'true'))),
-							'series' => $listaSeries, 'drilldown' => array('drillUpButton'=>array('relativeTo'=>'spacingBox'),'series' => $listaDrilldown));
-		
-		return $listaFinal;
+		/*$chart->chart->backgroundColor->linearGradient = [0, 0, 500, 500];
+        $chart->chart->backgroundColor->stops = [
+                    [0, 'rgb(255, 255, 255)'],
+                    [1, 'rgb(240, 240, 255)']
+                    ];
+        $chart->chart->borderWidth = 2;
+        $chart->chart->plotBackgroundColor = 'rgba(255, 255, 255, .9)';
+        $chart->chart->plotShadow = true;
+        $chart->chart->plotBorderWidth = 1; */       
+
+		$chart->chart->events->drilldown  = new HighchartJsExpr(
+		    "function(e) {
+		    	tituloDrillUp.push($('.highcharts-title').text());
+		    	chart.setTitle({ text: e.point.name });
+		    }");
+
+		$chart->chart->events->drillup  = new HighchartJsExpr(
+		    "function(e) {		    	
+		    	tituloDrillUpText = tituloDrillUp.pop();
+
+		    	chart.setTitle({ text: tituloDrillUpText});
+		    }");
+
+		$chart->title->text = "Evaluaciones de Ingreso por año";
+		$chart->subtitle->text = "Se omiten Portacion de Arma de Fuego, Otras Evaluaciones e Investigaciones Especiales";
+
+		$chart->lang->drillUpText = "<< Regresar";
+
+		//$chart->xAxis->title->text = '<b>Evaluaciones</b>';
+		//$chart->xAxis->categories->text = 'Evaluaciones';
+		$chart->xAxis->type = 'category';
+		$chart->yAxis->title->text = "<b>Cantidad</b>";
+
+		$chart->credits->enabled = 0;
+		$chart->legend->enabled = 0;
+
+		$chart->plotOptions->borderWith=0;
+		$chart->plotOptions->series->dataLabels->enabled=1;
+
+		$chart->series = $listaSeries;
+
+		$chart->drilldown->series = $listaDrilldown;
+
+		$chart->drilldown->drillUpButton->relativeTo = 'spacingBox';
+		$chart->exporting->enabled = 0;
+
+		return $chart;
 	}
 }

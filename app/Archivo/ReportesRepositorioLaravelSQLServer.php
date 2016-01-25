@@ -67,32 +67,32 @@ class ReportesRepositorioLaravelSQLServer implements ReportesRepositorioInterfac
 		
 
 		try{
-			$results = DB::select("exec DASH_ArchivoReporte ?, ?, ?, ?, ? ", array($anio, $medico, $psicologia,  $socioeconomico, $poligrafia));
+			$results = DB::select("exec DASH_reporteExpedientesNoEntregados ?, ?, ?, ?, ? ", array($anio, $medico, $psicologia,  $socioeconomico, $poligrafia));
 
-
-			
-
-			$totalEvaluados = count($results);
-
-			
+			$totalEvaluados = count($results);		
 
 			if($totalEvaluados > 0) {
 				foreach ($results as $results) {					
 					
-					$resultado['id_curp'] = $results->id_curp;
-					$resultado['curp'] = $results->curp;
-					$resultado['id_evaluacion'] = $results->id_evaluacion;
-					$resultado['lnoconcluyo'] = $results->lnoconcluyo;
-					$resultado['medico'] = $results->medico;
-					$resultado['fTox'] = $results->fTox;
-					$resultado['psicologia'] = $results->psicologia;
-					$resultado['socioeconomico'] = $results->socioeconomico;
-					$resultado['custodia'] = $results->custodia;
+					$resultado[0] = $results->clave_archivo;		
+					$resultado[1] = $results->codigo_evaluado;					
+					$resultado[2] = $results->nombre_completo;	
+					//$resultado[2] = $results->sexo;
+					//$resultado[3] = $results->fecha_alta;
+					$resultado[3] = $results->dependencia;
+					$resultado[4] = $results->puesto;
+					$resultado[5] = $results->curp;						
+					$resultado[6] = $results->medico;					
+					$resultado[7] = $results->psicologia;
+					$resultado[8] = $results->socioeconomico;
+					$resultado[9] = $results->custodia;
+
 					
 					$resultados[] = $resultado;
 				}
 
 				return $resultados;
+				//return json_decode(json_encode($results), true);			
 			}
 			return null;
 
@@ -103,29 +103,38 @@ class ReportesRepositorioLaravelSQLServer implements ReportesRepositorioInterfac
 	}
 
 
-	public function obtenerDatosReporteEnArchivo($anio, $medico, $psicologia, $socioeconomico, $poligrafia, $es_diferenciada, $no_areas_inicial, $no_areas_final){
+	public function obtenerDatosReporteEnArchivo($anio, $medico, $psicologia, $socioeconomico, $poligrafia, $es_diferenciada, $no_areas_inicial, $no_areas_final, $estatus_expediente){
 		$resultado = array();
 		$resultados = array();
 		
 
-		try{
-			$results = DB::select("exec DASH_reporteExpedientesEnArchivo ?, ?, ?, ?, ?, ?, ?, ? ", array($anio, $medico, $psicologia,  $socioeconomico, $poligrafia, $es_diferenciada, $no_areas_inicial, $no_areas_final));
+		/*$test = array($anio, $medico, $psicologia,  $socioeconomico, $poligrafia, $es_diferenciada, $no_areas_inicial, $no_areas_final, $estatus_expediente);
+		
+		print_r($test);exit();*/
 
+		try{
+			$results = DB::select("exec DASH_reporteExpedientesEnArchivo ?, ?, ?, ?, ?, ?, ?, ?, ? ", array($anio, $medico, $psicologia,  $socioeconomico, $poligrafia, $es_diferenciada, $no_areas_inicial, $no_areas_final, $estatus_expediente));
+
+			//print_r($results);
 			$totalEvaluados = count($results);
 
 			if($totalEvaluados > 0) {
 				foreach ($results as $results) {					
-					
-					$resultado['id_curp'] = $results->id_curp;
-					$resultado['curp'] = $results->curp;
-					$resultado['id_evaluacion'] = $results->id_evaluacion;
-					$resultado['es_diferenciada'] = $results->es_diferenciada;
-					$resultado['no_areas'] = $results->no_areas;
-					$resultado['medico'] = $results->medico;					
-					$resultado['psicologia'] = $results->psicologia;
-					$resultado['socioeconomico'] = $results->socioeconomico;
-					$resultado['poligrafia'] = $results->poligrafia;
-					
+									
+					$resultado[0] = $results->clave_archivo;		
+					$resultado[1] = $results->codigo_evaluado;					
+					$resultado[2] = $results->nombre_completo;	
+					//$resultado[2] = $results->sexo;
+					//$resultado[3] = $results->fecha_alta;
+					$resultado[3] = $results->dependencia;
+					$resultado[4] = $results->puesto;
+					$resultado[5] = $results->curp;	
+					$resultado[6] = $results->tipo;						
+					$resultado[7] = $results->medico;					
+					$resultado[8] = $results->psicologia;
+					$resultado[9] = $results->socioeconomico;
+					$resultado[10] = $results->custodia;
+
 					$resultados[] = $resultado;
 				}
 
@@ -153,11 +162,64 @@ class ReportesRepositorioLaravelSQLServer implements ReportesRepositorioInterfac
 
 			if($totalEvaluados > 0) {
 				foreach ($results as $results) {					
+					$resultado[0] = $results->clave_archivo;
+					$resultado[1] = $results->codigo_evaluado;					
+					$resultado[2] = $results->nombre_completo;	
+					$resultado[3] = $results->supervisor;
+					$resultado[4] = $results->analista;
+					$resultado[5] = $results->dependencia;
+					$resultado[6] = $results->puesto;
+					$resultado[7] = $results->curp;		
+					$resultado[8] = $results->estatus;					
 					
-					$resultado['numero_fila'] = $results->numero_fila;
-					$resultado['curp'] = $results->curp;
-					$resultado['id_evaluacion'] = $results->idevaluacion;
-					$resultado['estatus'] = $results->estatus;					
+					$resultados[] = $resultado;
+				}
+
+				return $resultados;
+			}
+			return null;
+
+		}catch(\Exception $e) {
+			echo $e->getMessage();
+			return null;
+		}
+	}
+
+	public function obtenerDatosTotales($anio,$estatus, $concluyo, $diferenciadas, $tipo, $medico, $psicologia, $socioeconomico, $poligrafia)
+	{
+		$resultado = array();
+		$resultados = array();
+		
+		try
+		{
+			$results = DB::select("exec DASH_reporteExpedientesTotales ?, ?, ?, ?, ?, ?, ?, ?, ? ", array($anio,$estatus, $concluyo, $diferenciadas, $tipo, $medico, $poligrafia, $psicologia, $socioeconomico));
+
+			$totalEvaluados = count($results);
+
+			if($totalEvaluados > 0) {
+				foreach ($results as $results) {					
+					$resultado[0] = $results->clave_archivo;
+					$resultado[1] = $results->codigo_evaluado;	
+					$resultado[2] = $results->dependencia;				
+					$resultado[3] = $results->nombre_completo;	
+					$resultado[4] = $results->curp;	
+					
+					$resultado[5] = $results->medico;	
+					$resultado[6] = $results->poligrafia;				
+					$resultado[7] = $results->psicologia;
+					$resultado[8] = $results->socioeconomico;
+					
+						
+					$resultado[9] = $results->fecha_alta;
+					$resultado[10] = $results->tipo;
+					$resultado[11] = $results->resultado;				
+
+					$resultado[12] = $results->supervisor;	
+					$resultado[13] = $results->analista;	
+					$resultado[14] = $results->estatus;	
+
+					$resultado[15] = $results->diferenciada;	
+					$resultado[16] = $results->concluyo;	
 					
 					$resultados[] = $resultado;
 				}

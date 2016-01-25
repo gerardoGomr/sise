@@ -43,33 +43,39 @@ class LaravelArchivoController extends Controller
     {
         $anio =(int)$request->get('anio');
                 
-        $listaDatos = $this->archivoReporteRepositorio->obtenerDatosIngresos($anio);
-        $conversor = new ConversorReportePuntosHighcharts();
-        $listaFinal = $conversor->convertir($listaDatos);
-        
-        return response()->json($listaFinal);
+        $dashboard = $this->archivoReporteRepositorio->obtenerDatosIngresos($anio);
+       /* $conversor = new ConversorReportePuntosHighcharts();
+        $dashboard = $conversor->convertir($dashboard);
+        */
+        //return View::make('archivo.reporte_no_entregados_detalle', array('dashboard'=>$dashboard));
+        return Response::json(View::make('archivo.reporte_no_entregados_detalle', array('dashboard' => $dashboard))
+            ->render());
     }
 
     public function getDaTosGraficaEnArchivo(Request $request)
     {
         $anio =(int)$request->get('anio');
         
-        $listaDatos = $this->archivoReporteRepositorio->obtenerDatosIngresos($anio);
-        $conversor = new ConversorReporteEnArchivoPuntosHighcharts();
-        $listaFinal = $conversor->convertir($listaDatos);
+        $dashboard = $this->archivoReporteRepositorio->obtenerDatosIngresos($anio);
+        /*$conversor = new ConversorReporteEnArchivoPuntosHighcharts();
+        $dashboard = $conversor->convertir($dashboard);
         
-        return response()->json($listaFinal);
+        return View::make('archivo.reporte_en_archivo_grafica', array('chart'=>$dashboard));*/
+        return Response::json(View::make('archivo.reporte_en_archivo_detalle', array('dashboard' => $dashboard))
+            ->render());
     }
 
     public function getDaTosGraficaEnProceso(Request $request)
     {
         $anio =(int)$request->get('anio');
         
-        $listaDatos = $this->archivoReporteRepositorio->obtenerDatosIngresos($anio);
+        $dashboard = $this->archivoReporteRepositorio->obtenerDatosIngresos($anio);
         $conversor = new ConversorReporteEnProcesoPuntosHighcharts();
-        $listaFinal = $conversor->convertir($listaDatos);
+        $dashboard = $conversor->convertir($dashboard);
        
-        return response()->json($listaFinal);
+        return View::make('archivo.dashboard_grafica', array('chart'=>$dashboard));
+        //return Response::json(View::make('archivo.reporte_en_proceso_detalle', array('dashboard' => $dashboard))
+          //  ->render());
     }
 
     public function index($anio_selecionado=null)
@@ -89,8 +95,8 @@ class LaravelArchivoController extends Controller
         $listaDatos = $this->archivoReporteRepositorio->obtenerDatosIngresos($anio);
         $conversor = new ConversorIngresosPuntosHighcharts();
         $listaFinal = $conversor->convertir($listaDatos);
-        //echo json_encode($listaFinal);exit;
-        return response()->json($listaFinal);
+        
+        return View::make('archivo.dashboard_grafica', array('chart'=>$listaFinal));
     }
 
     public function getDatosTotales(Request $request){
@@ -101,6 +107,58 @@ class LaravelArchivoController extends Controller
         return Response::json(View::make('archivo.dashboard_totales', array('totales' => $listaDatos))->render());
     }
 
+    public function reporteTotalesIndex($anio_selecionado=null)
+    {        
+        $anio = $this->catalogoRepositorio->obtenerCatalogo('anio');
+         
+        $estatus = $this->catalogoRepositorio->obtenerCatalogo('estatus_custodia_completo');
+        $estatus=array('8'=>'Todos')+$estatus;   
+
+        $tipo = $this->catalogoRepositorio->obtenerCatalogo('evaluacion');
+        $tipo=array('T'=>'Todos')+$tipo;      
+        
+
+        $opciones = array('T'=>'Todos', 
+            'EE'=>'Entrego Area-Entrego Custodia (EE)', 
+            'EN'=>'Entrego Area-No Entrego Custodia (EN)', 
+            'NE'=>'No Entrego Area-Entrego Custodia (NE)', 
+            'NN'=>'No Entrego Area-No Entrego Custodia (NN)');    
+
+        $diferenciada = array('T'=>'Todos', 'SI'=>'Si', 'NO'=>'No');
+        
+        $concluyo= array('T'=>'Todos', 'SI'=>'Si', 'NO'=>'No');
+
+        $seleccionado=$anio_selecionado;
+
+        return View::make('archivo.reporte_totales', array('anio'=>$anio, 
+            'estatus'=>$estatus,'opciones'=>$opciones, 'diferenciada'=>$diferenciada,
+            'concluyo'=>$concluyo, 'tipo'=>$tipo))
+            ->with(compact('seleccionado'));
+    }
+
+    public function getDatosReporteTotales(Request $request)
+    {
+        $anio = (int)$request->get('anio');
+        $estatus = $request->get('estatus');
+        $concluyo = $request->get('concluyo');
+        $diferenciada = $request->get('diferenciada');
+        $tipo = $request->get('tipo');  
+
+        $medico = $request->get('medico');
+        $psicologia = $request->get('psicologia');
+        $socioeconomico = $request->get('socioeconomico');
+        $poligrafia = $request->get('poligrafia');  
+             
+        $listaEvaluados = $this->archivoReporteRepositorio->obtenerDatosTotales($anio,$estatus, $concluyo, $diferenciada, $tipo, $medico, $psicologia, $socioeconomico, $poligrafia);
+             
+        $results = array(
+            "sEcho" => 1,
+            "iTotalRecords" => count($listaEvaluados),
+            "iTotalDisplayRecords" => count($listaEvaluados),
+            "aaData"=>$listaEvaluados);
+
+        return json_encode($results); 
+    }
 
     public function reporteNoEntregadosIndex($anio_selecionado=null)
     {        
@@ -124,24 +182,14 @@ class LaravelArchivoController extends Controller
         $pagina = $request->get('page');
         
         $listaEvaluados = $this->archivoReporteRepositorio->obtenerDatosReporteNoEntregados($anio, $medico, $psicologia, $socioeconomico, $poligrafia);
-               
-        //Get current page form url e.g. &page=6
-        $currentPage = $pagina;// Paginator::resolveCurrentPage();
+             
+        $results = array(
+            "sEcho" => 1,
+            "iTotalRecords" => count($listaEvaluados),
+            "iTotalDisplayRecords" => count($listaEvaluados),
+            "aaData"=>$listaEvaluados);
 
-        //Create a new Laravel collection from the array data
-        $collection = new Collection($listaEvaluados);
-
-        //Define how many items we want to be visible in each page
-        $perPage = 10;
-
-        //Slice the collection to get the items to display in current page
-        $currentPageSearchResults = $collection->slice(($currentPage-1) * $perPage, $perPage)->all();
-
-        //Create our paginator and pass it to the view
-        $paginatedSearchResults= new Paginator($currentPageSearchResults, count($collection), $perPage);
-
-        return Response::json(View::make('archivo.reporte_no_entregados_detalle', array('evaluados' => $paginatedSearchResults))->with(compact('anio', 'medico', 'psicologia', 'socioeconomico', 'poligrafia'))->render());
-        
+        return json_encode($results); 
     }
 
     public function getReporteNoEntregados(Request $request)
@@ -153,9 +201,9 @@ class LaravelArchivoController extends Controller
         $poligrafia = $request->get('poligrafia');
 
         // rutas para la apertura de reporte y para el guardado en una ubicación del servidor
-        $my_report = "C:\\wamp\\www\\sise1\\resources\\assets\\reportes\\reportes_expedientes_no_entregados.rpt"; // Ruta fisica al reporte en el servidor
+        $my_report = "C:\\wamp\\www\\sise\\resources\\assets\\reportes\\reportes_expedientes_no_entregados.rpt"; // Ruta fisica al reporte en el servidor
         
-        $exp_pdf = "C:\\wamp\\www\\sise1\\public\\reportes\\reportes_expedientes_no_entregados.pdf"; // ruta fisica donde se guardara el PDF resultado en el servidor
+        $exp_pdf = "C:\\wamp\\www\\sise\\public\\reportes\\reportes_expedientes_no_entregados.pdf"; // ruta fisica donde se guardara el PDF resultado en el servidor
         
         // Instancio el Object Factory de Crystal Reports
         try
@@ -178,7 +226,7 @@ class LaravelArchivoController extends Controller
 
             // Conexion a la base de datos
             // $creport->Database->Tables(1)->SetLogOnInfo("10.10.100.24", "Integral", "sa", "Theesco10");
-            $creport->Database->Tables(1)->SetLogOnInfo("(local)", "Integral", "sa", "Theesco10");
+            $creport->Database->Tables(1)->SetLogOnInfo("(local)", "Integral", "sa", "102938");
 
             //Con Enable Parameter Promting evito que lanze el formulario de captura de parametros ya que el browser del usuario no puede interactuar con el escritorio o el componente que crea el formulario.
             $creport->EnableParameterPrompting = 0;
@@ -270,20 +318,53 @@ class LaravelArchivoController extends Controller
         if($estatus_expediente=='5'){
             $no_areas_inicial = 5;
             $no_areas_final = 5;
+
+            $medico = 'TODOS';
+            $psicologia = 'TODOS';
+            $socioeconomico = 'TODOS';
+            $poligrafia = 'TODOS';
            
         }
-        //Incompletos
-        if($estatus_expediente=='3'){
+
+        //Incompletos Diferenciados
+        if($estatus_expediente=='3' && $es_diferenciada==1){
+            $no_areas_inicial = 0;
+            $no_areas_final = 2;            
+        }
+
+        //Incompletos No Diferenciados
+        if($estatus_expediente=='3' && $es_diferenciada==0){
             $no_areas_inicial = 0;
             $no_areas_final = 3;            
         }
-        //Completos
-        if($estatus_expediente=='4'){
+
+         //Incompletos Todos
+        if($estatus_expediente=='3' && $es_diferenciada==2){
+            $no_areas_inicial = 2;
+            $no_areas_final = 3;            
+        }
+
+        //Completos Diferenciados
+        if($estatus_expediente=='4' && $es_diferenciada==1){
+            $no_areas_inicial = 3;
+            $no_areas_final = 3;
+        }
+
+        //Completos NO Diferenciados
+        if($estatus_expediente=='4' && $es_diferenciada==0){
             $no_areas_inicial = 4;
             $no_areas_final = 4;
         }
 
+        //Completos Todos
+        if($estatus_expediente=='4' && $es_diferenciada==2){
+            $no_areas_inicial = 3;
+            $no_areas_final = 4;
+        }
+
         if($filtro_por_numero=='si'){
+            //$es_diferenciada=1;
+            $estatus_expediente=6;
             $no_areas_inicial = $no_areas;
             $no_areas_final = $no_areas;
 
@@ -297,25 +378,16 @@ class LaravelArchivoController extends Controller
 
         $pagina = $request->get('page');
         
-        $listaEvaluados = $this->archivoReporteRepositorio->obtenerDatosReporteEnArchivo($anio, $medico, $psicologia, $socioeconomico, $poligrafia, $es_diferenciada, $no_areas_inicial, $no_areas_final);
-               
-        //Get current page form url e.g. &page=6
-        $currentPage = $pagina;// Paginator::resolveCurrentPage();
+        $listaEvaluados = $this->archivoReporteRepositorio->obtenerDatosReporteEnArchivo($anio, $medico, $psicologia, $socioeconomico, $poligrafia, $es_diferenciada, $no_areas_inicial, $no_areas_final, $estatus_expediente);
+        
 
-        //Create a new Laravel collection from the array data
-        $collection = new Collection($listaEvaluados);
+        $results = array(
+            "sEcho" => 1,
+            "iTotalRecords" => count($listaEvaluados),
+            "iTotalDisplayRecords" => count($listaEvaluados),
+            "aaData"=>$listaEvaluados);
 
-        //Define how many items we want to be visible in each page
-        $perPage = 10;
-
-        //Slice the collection to get the items to display in current page
-        $currentPageSearchResults = $collection->slice(($currentPage-1) * $perPage, $perPage)->all();
-
-        //Create our paginator and pass it to the view
-        $paginatedSearchResults= new Paginator($currentPageSearchResults, count($collection), $perPage);
-
-        return Response::json(View::make('archivo.reporte_en_archivo_detalle', array('evaluados' => $paginatedSearchResults))->with(compact('anio', 'medico', 'psicologia', 'socioeconomico', 'poligrafia', 'es_diferenciada', 'no_areas_inicial', 'no_areas_final'))->render());
-  
+        return json_encode($results); 
     }
 
     public function getReporteEnArchivo(Request $request)
@@ -331,9 +403,9 @@ class LaravelArchivoController extends Controller
         $final = $request->get('final');
 
         // rutas para la apertura de reporte y para el guardado en una ubicación del servidor
-        $my_report = "C:\\wamp\\www\\sise1\\resources\\assets\\reportes\\reportes_expedientes_en_archivo.rpt"; // Ruta fisica al reporte en el servidor
+        $my_report = "C:\\wamp\\www\\sise\\resources\\assets\\reportes\\reportes_expedientes_en_archivo.rpt"; // Ruta fisica al reporte en el servidor
         
-        $exp_pdf = "C:\\wamp\\www\\sise1\\public\\reportes\\reporte_expedientes_en_archivo.pdf"; // ruta fisica donde se guardara el PDF resultado en el servidor
+        $exp_pdf = "C:\\wamp\\www\\sise\\public\\reportes\\reporte_expedientes_en_archivo.pdf"; // ruta fisica donde se guardara el PDF resultado en el servidor
         
         // Instancio el Object Factory de Crystal Reports
         try
@@ -356,7 +428,7 @@ class LaravelArchivoController extends Controller
 
             // Conexion a la base de datos
             // $creport->Database->Tables(1)->SetLogOnInfo("10.10.100.24", "Integral", "sa", "Theesco10");
-            $creport->Database->Tables(1)->SetLogOnInfo("(local)", "Integral", "sa", "Theesco10");
+            $creport->Database->Tables(1)->SetLogOnInfo("(local)", "Integral", "sa", "102938");
 
             //Con Enable Parameter Promting evito que lanze el formulario de captura de parametros ya que el browser del usuario no puede interactuar con el escritorio o el componente que crea el formulario.
             $creport->EnableParameterPrompting = 0;
@@ -438,25 +510,14 @@ class LaravelArchivoController extends Controller
         $pagina = $request->get('page');
         
         $listaEvaluados = $this->archivoReporteRepositorio->obtenerDatosReporteEnProceso($anio, $estatus);
-             
+          
+         $results = array(
+            "sEcho" => 1,
+            "iTotalRecords" => count($listaEvaluados),
+            "iTotalDisplayRecords" => count($listaEvaluados),
+            "aaData"=>$listaEvaluados);
 
-        //Get current page form url e.g. &page=6
-        $currentPage = $pagina;// Paginator::resolveCurrentPage();
-
-        //Create a new Laravel collection from the array data
-        $collection = new Collection($listaEvaluados);
-
-        //Define how many items we want to be visible in each page
-        $perPage = 10;
-
-        //Slice the collection to get the items to display in current page
-        $currentPageSearchResults = $collection->slice(($currentPage-1) * $perPage, $perPage)->all();
-
-        //Create our paginator and pass it to the view
-        $paginatedSearchResults= new Paginator($currentPageSearchResults, count($collection), $perPage);
-
-        return Response::json(View::make('archivo.reporte_en_proceso_detalle', array('evaluados' => $paginatedSearchResults))->with(compact('anio', 'estatus'))->render());
-     
+        return json_encode($results);    
     }
 
      public function getReporteEnProceso(Request $request)
@@ -465,9 +526,9 @@ class LaravelArchivoController extends Controller
         $estatus = $request->get('estatus');
         
         // rutas para la apertura de reporte y para el guardado en una ubicación del servidor
-        $my_report = "C:\\wamp\\www\\sise1\\resources\\assets\\reportes\\reportes_expedientes_en_proceso.rpt"; // Ruta fisica al reporte en el servidor
+        $my_report = "C:\\wamp\\www\\sise\\resources\\assets\\reportes\\reportes_expedientes_en_proceso.rpt"; // Ruta fisica al reporte en el servidor
         
-        $exp_pdf = "C:\\wamp\\www\\sise1\\public\\reportes\\reportes_expedientes_en_proceso.pdf"; // ruta fisica donde se guardara el PDF resultado en el servidor
+        $exp_pdf = "C:\\wamp\\www\\sise\\public\\reportes\\reportes_expedientes_en_proceso.pdf"; // ruta fisica donde se guardara el PDF resultado en el servidor
         
         // Instancio el Object Factory de Crystal Reports
         try
@@ -490,7 +551,7 @@ class LaravelArchivoController extends Controller
 
             // Conexion a la base de datos
             // $creport->Database->Tables(1)->SetLogOnInfo("10.10.100.24", "Integral", "sa", "Theesco10");
-            $creport->Database->Tables(1)->SetLogOnInfo("(local)", "Integral", "sa", "Theesco10");
+            $creport->Database->Tables(1)->SetLogOnInfo("(local)", "Integral", "sa", "102938");
 
             //Con Enable Parameter Promting evito que lanze el formulario de captura de parametros ya que el browser del usuario no puede interactuar con el escritorio o el componente que crea el formulario.
             $creport->EnableParameterPrompting = 0;

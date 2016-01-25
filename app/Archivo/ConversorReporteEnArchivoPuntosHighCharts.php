@@ -1,6 +1,8 @@
 <?php
 namespace Sise\Archivo;
 
+use \Ghunti\HighchartsPHP\Highchart;
+use \Ghunti\HighchartsPHP\HighchartJsExpr;
 
 class ConversorReporteEnArchivoPuntosHighcharts extends  ConversorPuntos
 {
@@ -20,19 +22,39 @@ class ConversorReporteEnArchivoPuntosHighcharts extends  ConversorPuntos
 
 		}
 
-		$listaSeries[] = array('name' => 'Expedientes', 'data' => $listaEnArchivoDetalle);
-		
+		$listaSeries[] = array('name' => 'Expedientes', 'data' => $listaEnArchivoDetalle);		
+	
+		$chart = new Highchart();
 
-		$listaFinal = array('chart' => array('renderTo' => 'dvGraficaEnArchivo', 'type'=> 'column'),	
-							'title' => array('text' => 'Total  '.$anio.' :<b>'.$total.'</b>'),
-							'xAxis' => array('title' => array('text' => '<b>Expedientes</b>'),'categories' => array('Completos sin analizar', 'Completos diferenciados sin analizar', 'Incompletos'), 'labels' =>array('margin'=>'2')),
-							'legend' => array('enabled' => false),
-							'credits' => array('enabled' => false),
-							'yAxis' => array('title' => array('text' => '<b>Cantidad de evaluaciones</b>')),
-							
-							'plotOptions' => array('borderWith'=>0,'column' => array('dataLabels' => array('enabled'=> 'true'))),
-							'series' => $listaSeries);
+		$chart->chart->renderTo = "dvGraficaEnArchivo";
+		$chart->chart->type = "column";
+
+		$chart->chart->backgroundColor->linearGradient = [0, 0, 500, 500];
+        $chart->chart->backgroundColor->stops = [
+                    [0, 'rgb(255, 255, 255)'],
+                    [1, 'rgb(240, 240, 255)']
+                    ];
+        $chart->chart->borderWidth = 2;
+        $chart->chart->plotBackgroundColor = 'rgba(255, 255, 255, .9)';
+        $chart->chart->plotShadow = true;
+        $chart->chart->plotBorderWidth = 1;        
 		
-		return $listaFinal;
+		$chart->title->text = 'Total  '.$anio.' :<b>'.$total.'</b>';
+		$chart->xAxis->title->text = '<b>Expedientes</b>';
+		$chart->xAxis->categories = array('Completos sin analizar', 'Completos diferenciados sin analizar', 'Incompletos');
+
+		$chart->yAxis->title->text = "<b>Cantidad de evaluaciones</b>";
+
+		$chart->credits->enabled = 0;
+		$chart->legend->enabled = 0;
+
+		$chart->plotOptions->borderWith=0;
+		$chart->plotOptions->series->dataLabels->enabled=1;
+
+		$chart->series = $listaSeries;
+		
+		$chart->exporting->enabled = 0;		
+
+		return $chart;
 	}
 }

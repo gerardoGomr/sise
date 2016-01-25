@@ -1,5 +1,7 @@
 <?php
 namespace Sise\Archivo;
+use \Ghunti\HighchartsPHP\Highchart;
+use \Ghunti\HighchartsPHP\HighchartJsExpr;
 
 class ConversorReporteEnProcesoPuntosHighcharts extends  ConversorPuntos
 {
@@ -19,18 +21,38 @@ class ConversorReporteEnProcesoPuntosHighcharts extends  ConversorPuntos
 		}
 
 		$listaSeries[] = array('name' => 'Expedientes', 'data' => $listaEnProcesoDetalle);
-		
+				
+		$chart = new Highchart();
 
-		$listaFinal = array('chart' => array('renderTo' => 'dvGraficaEnProceso', 'type'=> 'column'),	
-							'title' => array('text' => 'Total  '.$anio.' :<b>'.$total.'</b>'),
-							'xAxis' => array('title' => array('text' => '<b>Expedientes</b>'),'categories' => array('En Revision <br/>con Analista', 'En analisis <br/>con Supervisor', 'VoBo de <br/>Supervisor', 'En Analisis de <br/>Direccion de Custodia', 'En Firma de <br/>Direccion General', 'Firmado y Entregado <br/>a Custodia'), 'labels' =>array('margin'=>'2')),
-							'legend' => array('enabled' => false),
-							'credits' => array('enabled' => false),
-							'yAxis' => array('title' => array('text' => '<b>Cantidad de evaluaciones</b>')),
-							
-							'plotOptions' => array('borderWith'=>0,'column' => array('dataLabels' => array('enabled'=> 'true'))),
-							'series' => $listaSeries);
+		$chart->chart->renderTo = "chart_horizontal_bars";
+		$chart->chart->type = "bar";
+
+		/*$chart->chart->backgroundColor->linearGradient = [0, 0, 500, 500];
+        $chart->chart->backgroundColor->stops = [
+                    [0, 'rgb(255, 255, 255)'],
+                    [1, 'rgb(240, 240, 255)']
+                    ];
+        $chart->chart->borderWidth = 2;
+        $chart->chart->plotBackgroundColor = 'rgba(255, 255, 255, .9)';
+        $chart->chart->plotShadow = true;
+        $chart->chart->plotBorderWidth = 1;    */    
 		
-		return $listaFinal;
+		$chart->title->text = '<b>'.$total.'</b> Ingresos en proceso de dictaminación correspondientes al año '.$anio;
+		$chart->xAxis->title->text = '';
+		$chart->xAxis->categories = array('En Revision con Analista', 'En analisis con Supervisor', 'VoBo de Supervisor', 'En Analisis de Direccion de Custodia', 'En Firma de Direccion General', 'Firmado y Entregado a Custodia');
+
+		$chart->yAxis->title->text = "";
+
+		$chart->credits->enabled = 0;
+		$chart->legend->enabled = 0;
+
+		$chart->plotOptions->borderWith=0;
+		$chart->plotOptions->series->dataLabels->enabled=1;
+
+		$chart->series = $listaSeries;
+		
+		$chart->exporting->enabled = 0;		
+
+		return $chart;
 	}
 }
