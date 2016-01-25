@@ -78,7 +78,7 @@
                                             <div class="form-group">
                                                 <label class="control-label">Analistas:</label>
                                                 <select name="analistas" id="analistas" class="form-control">
-                                                    <option value="">Seleccione</option>
+                                                    <option value="">Todos</option>
                                                     @foreach($listaAnalistas as $analista)
                                                         <option value="{{ $analista['usuario'] }}">{{ $analista['nombre'] }}</option>
                                                     @endforeach
@@ -103,6 +103,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <input type="button" name="btnBuscar" id="btnBuscar" class="btn btn-primary" value="Buscar >>">
+                                                <input type="hidden" name="anio" value="{{ date('Y') }}">
                                             </div>
                                         </div>
                                     </div>
@@ -118,7 +119,7 @@
                                             <div class="innerAll">
                                                 <div class="separator bottom"></div>
                                                 <span id="analistasLoading" style="display:none;"><i class="fa fa-spinner fa-spin fa-2x"></i></span>
-                                                <div class="dvGraficaAnalistas"></div>
+                                                <div id="dvGraficaAnalistas"></div>
                                             </div>
                                         </div>
                                     </div>

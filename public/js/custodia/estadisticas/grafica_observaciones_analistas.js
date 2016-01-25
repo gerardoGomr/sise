@@ -33,7 +33,7 @@
 
 		// buscar datos de usuario
 		$('#btnBuscar').on('click', function(event) {
-			ajax($('#formAnalistas').attr('action'), 'post', 'json', $('#formAnalistas').serialize(), 'cargar', 'analistasLoading', 'dvGraficaAnalistas');
+			graficarObservacionesAnalistas($('#formAnalistas').serialize());
 		});
 
 		/*setTimeout(function(){

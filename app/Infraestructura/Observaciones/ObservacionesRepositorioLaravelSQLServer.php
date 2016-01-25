@@ -57,6 +57,38 @@ class ObservacionesRepositorioLaravelSQLServer implements ObservacionesRepositor
      */
     public function obtenerTotalDeObservacionesPorAnalistas(array $parametos)
     {
+        $listaObservacionesMensuales = [];
 
+        try {
+            $observaciones = DB::connection('Integral')
+                ->select('exec obtenerObservacionesAnalistasDetalle ?, ?, ?, ?', array($parametos['anio'], $parametos['fecha1'], $parametos['fecha2'], $parametos['analista']));
+
+            $totalObservaciones = count($observaciones);
+
+            if ($totalObservaciones > 0) {
+
+                foreach ( $observaciones as $observaciones) {
+                    $listaObservacionesMensuales[] = [
+                        'Nombre'                         => $observaciones->Nombre,
+                        'Usuario'                        => $observaciones->Usuario,
+                        'Total'                          => $observaciones->Total,
+                        'TotalAnalisisDeficiente'        => $observaciones->TotalAnalisisDeficiente,
+                        'TotalFaltoAgregarRecomendacion' => $observaciones->TotalFaltoAgregarRecomendacion,
+                        'TotalMalaRedaccion'             => $observaciones->TotalMalaRedaccion,
+                        'TotalMalaOrtografia'            => $observaciones->TotalMalaOrtografia,
+                        'TotalNoRevisoAntecedentes'      => $observaciones->TotalNoRevisoAntecedentes,
+                        'TotalNoRevisoReex'              => $observaciones->TotalNoRevisoReex
+                    ];
+                }
+
+                return $listaObservacionesMensuales;
+            }
+
+            return null;
+
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
     }
 }

@@ -69,9 +69,9 @@ class LaravelCustodiaObservacionesController extends Controller
         // parámetros
         $parametros = [
             'anio'     => $request->get('anio'),
-            'fecha1'   => $request->get('fecha1'),
-            'fecha2'   => $request->get('fecha2'),
-            'analista' => $request->get('analistas')
+            'fecha1'   => !is_null($request->get('fecha1')) && !empty($request->get('fecha1')) ? $request->get('fecha1') : null,
+            'fecha2'   => !is_null($request->get('fecha2')) && !empty($request->get('fecha2')) ? $request->get('fecha2') : null,
+            'analista' => !is_null($request->get('analistas')) ? $request->get('analistas') : ''
         ];
 
         $listaObservacionesAnalistas = $this->observacionesRepositorio->obtenerTotalDeObservacionesPorAnalistas($parametros);
