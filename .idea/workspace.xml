@@ -83,8 +83,8 @@
       <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.10983763">
-              <caret line="5" column="5" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.13180515">
+              <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -95,14 +95,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="71" column="69" selection-start-line="71" selection-start-column="56" selection-end-line="71" selection-end-column="69" />
-              <folding>
-                <marker date="1453749728819" expanded="true" signature="1021:1403" placeholder="..." />
-                <marker date="1453749728819" expanded="true" signature="1033:1357" placeholder="..." />
-                <marker date="1453749728819" expanded="true" signature="1034:1356" placeholder="..." />
-                <marker date="1453749728819" expanded="true" signature="4229:4580" placeholder="..." />
-                <marker date="1453749728819" expanded="true" signature="4241:4542" placeholder="..." />
-                <marker date="1453749728819" expanded="true" signature="4242:4541" placeholder="..." />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -308,6 +301,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -692,8 +687,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1153,14 +1146,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="71" column="69" selection-start-line="71" selection-start-column="56" selection-end-line="71" selection-end-column="69" />
-          <folding>
-            <marker date="1453749728819" expanded="true" signature="1021:1403" placeholder="..." />
-            <marker date="1453749728819" expanded="true" signature="1033:1357" placeholder="..." />
-            <marker date="1453749728819" expanded="true" signature="1034:1356" placeholder="..." />
-            <marker date="1453749728819" expanded="true" signature="4229:4580" placeholder="..." />
-            <marker date="1453749728819" expanded="true" signature="4241:4542" placeholder="..." />
-            <marker date="1453749728819" expanded="true" signature="4242:4541" placeholder="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1190,8 +1176,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.10983763">
-          <caret line="5" column="5" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.13180515">
+          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
           <folding />
         </state>
       </provider>
