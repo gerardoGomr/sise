@@ -14,11 +14,27 @@ class Serial
     protected $serial;
 
     /**
+     * @var string
+     */
+    protected $serialBase;
+
+    /**
+     * @var string
+     */
+    protected $area;
+
+    /**
+     * @var bool
+     */
+    protected $compuesto;
+
+    /**
      * Serial constructor.
      * @param string $serial
      */
     public function __construct($serial) {
         $this->serial = $serial;
+        $this->descomponer();
     }
 
     /**
@@ -36,10 +52,76 @@ class Serial
     }
 
     /**
+     * @return boolean
+     */
+    public function compuesto()
+    {
+        return $this->compuesto;
+    }
+
+    /**
+     * @param boolean $compuesto
+     */
+    public function setCompuesto($compuesto)
+    {
+        $this->compuesto = $compuesto;
+    }
+
+    /**
+     * @return string
+     */
+    public function getArea()
+    {
+        return $this->area;
+    }
+
+    /**
+     * @param string $area
+     */
+    public function setArea($area)
+    {
+        $this->area = $area;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSerialBase()
+    {
+        return $this->serialBase;
+    }
+
+    /**
+     * @param string $serialBase
+     */
+    public function setSerialBase($serialBase)
+    {
+        $this->serialBase = $serialBase;
+    }
+
+
+
+    /**
      * genera la representacion del serial en código de barras
      */
     public function generarCodigoBarras()
     {
 
+    }
+
+    /**
+     * descomponer el serial en sus componentes
+     */
+    private function descomponer()
+    {
+        if (strlen($this->serial) === 10) {
+            $this->compuesto  = true;
+            $this->serialBase = substr($this->serial, 0, 9);
+            $this->area       = substr($this->serial, 9, 1);
+        } else {
+            $this->compuesto  = false;
+            $this->serialBase = $this->serial;
+            $this->area       = null;
+        }
     }
 }

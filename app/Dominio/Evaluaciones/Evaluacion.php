@@ -102,11 +102,6 @@ class Evaluacion
     /**
      * @var Serial
      */
-    protected $serialMedico;
-
-    /**
-     * @var Serial
-     */
     protected $serial;
 
     /**
@@ -386,22 +381,6 @@ class Evaluacion
     public function setEntregaResultadoIntegral($entregaResultadoIntegral)
     {
         $this->entregaResultadoIntegral = $entregaResultadoIntegral;
-    }
-
-    /**
-     * @return Serial
-     */
-    public function getSerialMedico()
-    {
-        return $this->serialMedico;
-    }
-
-    /**
-     * @param Serial $serialMedico
-     */
-    public function setSerialMedico(Serial $serialMedico)
-    {
-        $this->serialMedico = $serialMedico;
     }
 
     /**

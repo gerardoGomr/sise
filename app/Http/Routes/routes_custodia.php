@@ -7,3 +7,6 @@ Route::post('custodia/estadisticas/analistas/grafica/observaciones/general', 'Cu
 
 // gráfica de observaciones por analista
 Route::post('custodia/estadisticas/analistas/observaciones/detalle', 'Custodia\Estadisticas\LaravelCustodiaObservacionesController@graficaAnalistas');
+
+// ruta para entrega - recepcion archivo
+Route::get('custodia/archivo/entregas', 'Custodia\Archivo\LaravelArchivoController@index');
