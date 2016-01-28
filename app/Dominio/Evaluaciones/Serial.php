@@ -6,7 +6,7 @@ namespace Sise\Dominio\Evaluaciones;
  * @package Sise\Dominio\Evaluaciones
  * @author  Gerardo Adrián Gómez Ruiz
  */
-class Serial
+abstract class Serial
 {
     /**
      * @var string
@@ -112,26 +112,13 @@ class Serial
     /**
      * descomponer el serial en sus componentes
      */
-    private function descomponer()
-    {
-        if (strlen($this->serial) === 10) {
-            $area = (int)substr($this->serial, 9, 1);
-
-            $this->compuesto  = true;
-            $this->serialBase = substr($this->serial, 0, 9);
-            $this->area       = $this->obtenerArea($area);
-        } else {
-            $this->compuesto  = false;
-            $this->serialBase = $this->serial;
-            $this->area       = null;
-        }
-    }
+    abstract public function descomponer();
 
     /**
      * @param int $numero
      * @return string
      */
-    private function obtenerArea($numero)
+    protected function obtenerArea($numero)
     {
         $nombre = '';
         switch ($numero) {

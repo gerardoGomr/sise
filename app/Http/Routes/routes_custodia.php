@@ -11,5 +11,8 @@ Route::post('custodia/estadisticas/analistas/observaciones/detalle', 'Custodia\E
 // ruta para entrega - recepcion archivo
 Route::get('custodia/archivo/entregas', 'Custodia\Archivo\LaravelArchivoController@index');
 
-// ruta para entrega - recepción, agregar elemento
-Route::post('custodia/archivo/entregas', 'Custodia\Archivo\LaravelArchivoController@agregarExpediente');
+// ruta para entrega - recepción, buscar memo
+Route::post('custodia/archivo/entregas', 'Custodia\Archivo\LaravelArchivoController@buscarMemo');
+
+// ruta para entrega -recepcion, agregar evaluacion
+Route::post('custodia/archivo/entregas/expediente', 'Custodia\Archivo\LaravelArchivoController@marcarExpediente');

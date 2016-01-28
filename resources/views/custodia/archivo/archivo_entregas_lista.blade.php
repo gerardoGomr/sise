@@ -1,4 +1,4 @@
-@if(isset($entregaArchivo) && !is_null($entregaArchivo))
+@if(isset($memoEntrega) && !is_null($memoEntrega))
     <table class="table table-striped table-bordered">
         <thead>
         <tr>
@@ -9,7 +9,7 @@
         </tr>
         </thead>
         <tbody>
-            @foreach($entregaArchivo->getListaEvaluaciones() as $evaluacion)
+            @foreach($memoEntrega->getListaEvaluaciones() as $evaluacion)
                 <tr>
                     <td>{{ $evaluacion->getElemento()->getNombreCompleto() }}</td>
                     <td>{{ $evaluacion->getElemento()->getCurp() }}</td>

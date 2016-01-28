@@ -13,10 +13,10 @@
                                 <div class="innerAll">
                                     {!! Form::open(['id' => 'formBusqueda', 'url' => url('custodia/archivo/entregas')]) !!}
                                         <div class="form-group">
-                                            <label class="control-label">Número serial:</label>
+                                            <label class="control-label">Escanee o escriba el folio del memorandum:</label>
                                             <div class="row">
                                                 <div class="col-md-3">
-                                                    <input type="text" name="txtSerial" id="txtSerial" class="form-control" maxlength="10">
+                                                    <input type="text" name="txtSerialMemo" id="txtSerialMemo" class="form-control" maxlength="24">
                                                 </div>
 
                                             </div>
@@ -24,13 +24,20 @@
                                     {!! Form::close() !!}
 
                                     <div class="box-generic">
-                                        <input type="button" class="btn btn-primary" value="Guardar">
-                                        <div class="pull-right">
-                                            <p class="text-center">
-                                                <span class="strong ">Total de evaluaciones:</span> <span id="total"></span>
-                                            </p>
-                                            
-                                        </div>
+                                        {!! Form::open(['id' => 'formExpediente', 'url' => url('custodia/archivo/entregas/expediente')]) !!}
+                                            <div class="form-group">
+                                                <label class="control-label">Escanee expedientes:</label>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <input type="text" name="txtSerialExp" id="txtSerialExp" class="form-control" maxlength="10" disabled="disabled">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="button" class="btn btn-primary" value="Guardar >>">
+                                            </div>
+                                        {!! Form::close() !!}
+
                                         <div class="separator"></div>
                                         <span id="spanLoading" style="display: none;"><i class="fa fa-spinner fa-spin fa-2x"></i></span>
                                         <div id="dvLista">

@@ -411,4 +411,9 @@ class Evaluacion
 
         return true;
     }
+
+    public function marcarEntregaDeExpediente()
+    {
+
+    }
 }
