@@ -115,13 +115,47 @@ class Serial
     private function descomponer()
     {
         if (strlen($this->serial) === 10) {
+            $area = (int)substr($this->serial, 9, 1);
+
             $this->compuesto  = true;
             $this->serialBase = substr($this->serial, 0, 9);
-            $this->area       = substr($this->serial, 9, 1);
+            $this->area       = $this->obtenerArea($area);
         } else {
             $this->compuesto  = false;
             $this->serialBase = $this->serial;
             $this->area       = null;
         }
+    }
+
+    /**
+     * @param int $numero
+     * @return string
+     */
+    private function obtenerArea($numero)
+    {
+        $nombre = '';
+        switch ($numero) {
+            case 1:
+                $nombre = 'Dirección de registro y cadena de custodia';
+                break;
+
+            case 2:
+                $nombre = 'Dirección de investigación socioeconómica';
+                break;
+
+            case 3:
+                $nombre = 'Dirección de psicología';
+                break;
+
+            case 4:
+                $nombre = 'Dirección de poligrafía';
+                break;
+
+            case 5:
+                $nombre = 'Dirección médica toxicológica';
+                break;
+        }
+
+        return $nombre;
     }
 }

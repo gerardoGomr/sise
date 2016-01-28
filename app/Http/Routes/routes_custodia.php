@@ -10,3 +10,6 @@ Route::post('custodia/estadisticas/analistas/observaciones/detalle', 'Custodia\E
 
 // ruta para entrega - recepcion archivo
 Route::get('custodia/archivo/entregas', 'Custodia\Archivo\LaravelArchivoController@index');
+
+// ruta para entrega - recepción, agregar elemento
+Route::post('custodia/archivo/entregas', 'Custodia\Archivo\LaravelArchivoController@agregarExpediente');

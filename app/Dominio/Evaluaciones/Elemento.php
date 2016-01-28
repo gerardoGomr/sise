@@ -275,11 +275,11 @@ class Elemento extends Persona
     {
         $nombre = $this->nombre;
         if(strlen($this->paterno) > 0) {
-            $nombre .= $this->paterno;
+            $nombre .= ' '.$this->paterno;
         }
 
         if(strlen($this->materno) > 0) {
-            $nombre .= $this->materno;
+            $nombre .= ' '.$this->materno;
         }
 
         return $nombre;
