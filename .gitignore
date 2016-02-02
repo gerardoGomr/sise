@@ -6,3 +6,4 @@ Homestead.json
 .git/
 .idea/
 config/app.php
+config/database.php
