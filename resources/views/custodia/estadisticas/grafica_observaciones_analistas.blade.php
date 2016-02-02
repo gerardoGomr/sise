@@ -78,7 +78,7 @@
                                 <div class="box-generic bg-success innerAll inner-2x">
                                     <input type="hidden" id="urlTotalEvaluacionesProceso" value="{{ url('/dirGeneral/totalEvaluacionesProceso') }}">
                                     <div class=" pull-right" id="observacionMasRecurrente">{{ $observacionMasRecurrente }}</div>
-                                    <h4 class="text-white margin-none">La observación más recurrente:</h4>
+                                    <h4 class="text-white margin-none">Observación más recurrente:</h4>
                                     <h5 class="text-white fecha">Al día {{ date('Y-m-d') }}</h5>
                                     <div class="separator"></div>
                                 </div>
