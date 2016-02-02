@@ -74,7 +74,7 @@
 												    		M&eacute;dico:
 													    	{!!Form::select('medico', $opciones, null, array('class'=>'form-control', 'id'=>'select_medico')); !!}
 													    </div>
-													    <div id="ocultar_poligrafia" class="col-sm-3">
+													    <div class="col-sm-3">
 													     	Poligrafia:
 													    	{!!Form::select('poligrafia',  $opciones, null, array('class'=>'form-control', 'id'=>'select_poligrafia')); !!}
 													    </div>		
@@ -85,6 +85,30 @@
 													    <div class="col-sm-3">
 													    	Socioeconomico:
 													    	{!!Form::select('socioeconomico',  $opciones, null, array('class'=>'form-control', 'id'=>'select_socioeconomico')); !!}
+													    </div>
+													     											    
+												    </div>
+
+												    <div class="form-group" >
+												    	<!--<div style="clear: both"></div>-->
+												    	<div class="col-sm-3" >
+												    	Resultado Integral:
+													    	{!!Form::select('resultado', $resultado, null, array('class'=>'form-control', 'id'=>'resultado')); !!}
+													    </div>
+													    <div class="col-sm-3">
+													     	Procedencia:
+													    	{!!Form::select('procedencia',  $procedencia, null, array('class'=>'form-control', 
+													    	'id'=>'procedencia')); !!}
+													    </div>		
+													    <div class="col-sm-3">
+													    	Supervisor:
+													    	{!!Form::select('supervisor',  $supervisor, null, array('class'=>'form-control', 
+													    	'id'=>'supervisor')); !!}
+													    </div>
+													    <div class="col-sm-3">
+													    	Analista:
+													    	{!!Form::select('analista',  $analista, null, array('class'=>'form-control',											    
+													    	'id'=>'analista')); !!}
 													    </div>
 													     											    
 												    </div>

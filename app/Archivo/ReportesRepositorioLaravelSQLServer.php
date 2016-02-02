@@ -185,14 +185,15 @@ class ReportesRepositorioLaravelSQLServer implements ReportesRepositorioInterfac
 		}
 	}
 
-	public function obtenerDatosTotales($anio,$estatus, $concluyo, $diferenciadas, $tipo, $medico, $psicologia, $socioeconomico, $poligrafia)
+	public function obtenerDatosTotales($anio,$estatus, $concluyo, $diferenciadas, $tipo, $medico, $psicologia, $socioeconomico, $poligrafia, $resultado_evaluacion, $procedencia, $supervisor, $analista)
 	{
 		$resultado = array();
 		$resultados = array();
 		
 		try
 		{
-			$results = DB::select("exec DASH_reporteExpedientesTotales ?, ?, ?, ?, ?, ?, ?, ?, ? ", array($anio,$estatus, $concluyo, $diferenciadas, $tipo, $medico, $poligrafia, $psicologia, $socioeconomico));
+			$results = DB::select("exec DASH_reporteExpedientesTotales ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ", array($anio,$estatus, $concluyo, $diferenciadas, $tipo, $medico, $poligrafia, $psicologia, $socioeconomico, $resultado_evaluacion, $procedencia, $supervisor, $analista));
+
 
 			$totalEvaluados = count($results);
 

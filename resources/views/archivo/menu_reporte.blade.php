@@ -1,11 +1,6 @@
 <div class="col-md-4">	
 	<div class="col-separator col-separator-last">
-		<a id="reporteNoEntregados"  href="#" class="widget widget-icon inverse innerAll inner-2x text-center text-regular">
-			<i class="display-block icon-list text-xlarge"></i>
-			<span class="lead">Expedientes en las areas</span>
-		</a>
-
-		<div class="col-separator-h"></div>
+	
 
 		<a id="reporteEnArchivo"  href="#" class="widget widget-icon primary innerAll inner-2x text-center text-regular">
 			<i class="display-block  icon-list text-xlarge"></i>

@@ -116,6 +116,18 @@ class LaravelArchivoController extends Controller
 
         $tipo = $this->catalogoRepositorio->obtenerCatalogo('evaluacion');
         $tipo=array('T'=>'Todos')+$tipo;      
+
+        $resultado = $this->catalogoRepositorio->obtenerCatalogo('resultado_integral');
+        $resultado = array('T'=>'Todos')+$resultado;  
+
+        $procedencia = $this->catalogoRepositorio->obtenerCatalogo('dependencia');
+        $procedencia = array('0'=>'Todos')+$procedencia;  
+
+        $supervisor = $this->catalogoRepositorio->obtenerCatalogo('usuarios');
+        $supervisor = array('T'=>'Todos')+$supervisor; 
+
+        $analista = $this->catalogoRepositorio->obtenerCatalogo('usuarios');
+        $analista = array('T'=>'Todos')+$analista; 
         
 
         $opciones = array('T'=>'Todos', 
@@ -132,7 +144,8 @@ class LaravelArchivoController extends Controller
 
         return View::make('archivo.reporte_totales', array('anio'=>$anio, 
             'estatus'=>$estatus,'opciones'=>$opciones, 'diferenciada'=>$diferenciada,
-            'concluyo'=>$concluyo, 'tipo'=>$tipo))
+            'concluyo'=>$concluyo, 'tipo'=>$tipo, 'resultado'=>$resultado, 'procedencia'=>$procedencia, 
+            'supervisor'=>$supervisor, 'analista'=>$analista))
             ->with(compact('seleccionado'));
     }
 
@@ -148,15 +161,32 @@ class LaravelArchivoController extends Controller
         $psicologia = $request->get('psicologia');
         $socioeconomico = $request->get('socioeconomico');
         $poligrafia = $request->get('poligrafia');  
-             
-        $listaEvaluados = $this->archivoReporteRepositorio->obtenerDatosTotales($anio,$estatus, $concluyo, $diferenciada, $tipo, $medico, $psicologia, $socioeconomico, $poligrafia);
-             
-        $results = array(
-            "sEcho" => 1,
-            "iTotalRecords" => count($listaEvaluados),
-            "iTotalDisplayRecords" => count($listaEvaluados),
-            "aaData"=>$listaEvaluados);
 
+        $resultado = $request->get('resultado');
+        $procedencia = (int)$request->get('procedencia');
+        $supervisor = $request->get('supervisor');
+        $analista = $request->get('analista'); 
+
+
+             
+        $listaEvaluados = $this->archivoReporteRepositorio->obtenerDatosTotales($anio,$estatus, $concluyo, $diferenciada, $tipo, $medico, $psicologia, $socioeconomico, $poligrafia, $resultado, $procedencia, $supervisor, $analista);
+        
+
+        if(count( $listaEvaluados) >0)  {   
+            $results = array(
+                "sEcho" => 1,
+                "iTotalRecords" => count($listaEvaluados),
+                "iTotalDisplayRecords" => count($listaEvaluados),
+                "aaData"=>$listaEvaluados);
+        }else
+        {   
+           $results = array(
+                "sEcho" => 1,
+                "iTotalRecords" => 0,
+                "iTotalDisplayRecords" => 0,
+                "aaData"=>[]);
+        }
+         
         return json_encode($results); 
     }
 

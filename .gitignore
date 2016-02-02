@@ -3,6 +3,6 @@
 Homestead.yaml
 Homestead.json
 .env
-/.git
+.git/
 .idea/
-/server.php
+config/app.php

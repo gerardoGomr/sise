@@ -352,6 +352,83 @@ class CatalogoRepositorioLaravelSQLServer implements CatalogoRepositorioInterfac
 			}
 		}
 
+		if($catalogo=='resultado_integral')
+		{
+			try
+			{			
+				$results = DB::select("SELECT DISTINCT cResultadoint FROM pCustodia WHERE cResultadoint <> '' ");			
+
+				$total = count($results);			
+
+				if($total > 0) {
+					foreach ($results as $results) {					
+						
+						$resultado[$results->cResultadoint] = $results->cResultadoint;					
+					}
+
+					return $resultado;
+				}
+				return null;
+
+			}catch(\Exception $e) 
+			{
+				echo $e->getMessage();
+				return null;
+			}
+		}
+
+		if($catalogo=='dependencia')
+		{
+			try
+			{			
+				$results = DB::select("SELECT DISTINCT cve_dependencia, desc_dependencia FROM CATALOGO_DEPENDENCIAS ORDER BY desc_dependencia ASC");			
+
+				$total = count($results);			
+
+				if($total > 0) {
+					foreach ($results as $results) {					
+						
+						$resultado[$results->cve_dependencia] = $results->desc_dependencia;					
+					}
+
+					return $resultado;
+				}
+				return null;
+
+			}catch(\Exception $e) 
+			{
+				echo $e->getMessage();
+				return null;
+			}
+		}
+
+		if($catalogo=='usuarios')
+		{
+			try
+			{			
+				$results = DB::select("SELECT DISTINCT usuario, ISNULL(nombre,'') AS nombre FROM tUsuarios ORDER BY nombre ASC");			
+
+				$total = count($results);			
+
+				if($total > 0) {
+					foreach ($results as $results) {					
+						
+						$resultado[$results->nombre] = $results->nombre;					
+					}
+
+					return $resultado;
+				}
+				return null;
+
+			}catch(\Exception $e) 
+			{
+				echo $e->getMessage();
+				return null;
+			}
+		}
+
+		
+
 	}
 
 }

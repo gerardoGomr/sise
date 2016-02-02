@@ -76,7 +76,7 @@
 				</div>
 			</div>
 			<div class="text-center innerAll inner-2x bg-gray">
-				<p class="lead margin-none"><span class="text-large text-regular">{{$total['concluyo_no_entregados'] + $total['entregados_en_archivo'] + $total['entregados_en_proceso']}}</span> <span class="clearfix"></span><span>Sin Resultado Integral</span></p>
+				<p class="lead margin-none"><span class="text-large text-regular">{{ $total['entregados_en_archivo'] + $total['entregados_en_proceso']}}</span> <span class="clearfix"></span><span>Sin Resultado Integral</span></p>
 			</div>
 		</div>
 	</div>

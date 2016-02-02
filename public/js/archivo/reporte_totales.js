@@ -1,4 +1,9 @@
 (function($, window, document) {
+
+    $('#procedencia').select2();
+    $('#supervisor').select2();
+    $('#analista').select2();
+
     //El codigo dentro de la funcion ready se ejecuta al
     //cargarse la pagina
     $(document).ready(function() {

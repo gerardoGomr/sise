@@ -55,8 +55,8 @@ class ConversorIngresosPuntosHighcharts extends ConversorPuntos
 		
 		$listaDrilldown[] = array('id' => 'detalleTotal','name'=>'Expedientes', 'colorByPoint' => 'true', 'data' => $listaTotalDetalle);
 		$listaDrilldown[] = array('id' => 'detalleEvaluacion','name'=>'Expedientes', 'colorByPoint' => 'true', 'data' => $listaEvaluacionDetalle);
-		$listaDrilldown[] = array('id' => 'detalleNoEntregados','name'=>'Expedientes', 'colorByPoint' => 'true', 'data' => $listaNoEntregadosDetalle);
-		$listaDrilldown[] = array('id' => 'detalleEntregados','name'=>'Expedientes', 'colorByPoint' => 'true', 'data' => $listaEntregadosDetalle);
+		/*$listaDrilldown[] = array('id' => 'detalleNoEntregados','name'=>'Expedientes', 'colorByPoint' => 'true', 'data' => $listaNoEntregadosDetalle);*/
+		$listaDrilldown[] = array('id' => 'detalleEvaluacion','name'=>'Expedientes', 'colorByPoint' => 'true', 'data' => $listaEntregadosDetalle);
 		$listaDrilldown[] = array('id' => 'detalleEnProceso','name'=>'Expedientes', 'colorByPoint' => 'true', 'data' => $listaEnProcesoDetalle);
 		$listaDrilldown[] = array('id' => 'detalleEnArchivo','name'=>'Expedientes', 'colorByPoint' => 'true', 'data' => $listaEnArchivoDetalle);
 	

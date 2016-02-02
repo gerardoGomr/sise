@@ -11,5 +11,5 @@ interface ReportesRepositorioInterface
 
 	public function obtenerDatosReporteEnProceso($anio, $estatus);
 
-	public function obtenerDatosTotales($anio,$estatus, $concluyo, $diferenciadas, $tipo, $medico, $psicologia, $socioeconomico, $poligrafia);
+	public function obtenerDatosTotales($anio,$estatus, $concluyo, $diferenciadas, $tipo, $medico, $psicologia, $socioeconomico, $poligrafia, $resultado_evaluacion, $procedencia, $supervisor, $analista);
 }
