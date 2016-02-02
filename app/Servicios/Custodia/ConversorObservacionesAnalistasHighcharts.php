@@ -34,32 +34,32 @@ class ConversorObservacionesAnalistasHighcharts implements TipoConversor
                     array(
                         'name'  => 'Análisis deficiente',
                         'y'     => (int) $lista[$indice]['TotalAnalisisDeficiente'],
-                        'color' => '#17F255'
+                        'color' => '#7CFFA1'
                     ),
                     array(
                         'name'  => 'Faltó agregar recomendación',
                         'y'     => (int) $lista[$indice]['TotalFaltoAgregarRecomendacion'],
-                        'color' => '#F2173F'
+                        'color' => '#FF6682'
                     ),
                     array(
                         'name'  => 'Mala redacción',
                         'y'     => (int) $lista[$indice]['TotalMalaRedaccion'],
-                        'color' => '#F2173F'
+                        'color' => '#D396A1'
                     ),
                     array(
                         'name' => 'Mala ortografía',
                         'y'    => (int) $lista[$indice]['TotalMalaOrtografia'],
-                        'color' => '#F2173F'
+                        'color' => '#4D74E9'
                     ),
                     array(
                         'name' => 'No revisó antecedentes',
                         'y'    => (int) $lista[$indice]['TotalNoRevisoAntecedentes'],
-                        'color' => '#F2173F'
+                        'color' => '#7EF0EB'
                     ),
                     array(
                         'name' => 'No revisó reexaminación poligráfica',
                         'y'    => (int) $lista[$indice]['TotalNoRevisoReex'],
-                        'color' => '#F2173F'
+                        'color' => '#E3F07E'
                     )
                 )
             );

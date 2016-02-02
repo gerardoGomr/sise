@@ -91,4 +91,63 @@ class ObservacionesRepositorioLaravelSQLServer implements ObservacionesRepositor
             return null;
         }
     }
+
+    /**
+     * @param int $anio
+     * @return int
+     */
+    public function obtenerTotalDeObservaciones($anio)
+    {
+        try {
+
+            $observaciones = DB::connection('Integral')
+                ->table('observacion_supervision_usuario')
+                ->select(DB::raw("COUNT(id) AS Total"))
+                ->where(DB::raw("YEAR(FechaObservacion)"), $anio)
+                ->first();
+
+            $totalObservaciones = count($observaciones);
+
+            if ($totalObservaciones > 0) {
+                return $observaciones->Total;
+            }
+
+            return 0;
+
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return 0;
+        }
+    }
+
+    /**
+     * @param int $anio
+     * @return string
+     */
+    public function obtenerObservacionMasRecurrente($anio)
+    {
+        try {
+
+            $observaciones = DB::connection('Integral')
+                ->table('observacion_supervision_usuario')
+                ->join('observacion_supervision', 'observacion_supervision.idObservacion', '=', 'observacion_supervision_usuario.idObservacion')
+                ->select(DB::raw("COUNT(observacion_supervision_usuario.idObservacion) AS Total"), 'observacion_supervision.Observacion')
+                ->where(DB::raw("YEAR(observacion_supervision_usuario.FechaObservacion)"), $anio)
+                ->groupBy('observacion_supervision.Observacion')
+                ->havingRaw(("COUNT(observacion_supervision_usuario.idObservacion) = (SELECT MAX(y.Total) FROM (SELECT COUNT(idObservacion) AS Total FROM observacion_supervision_usuario WHERE YEAR(FechaObservacion) = ".$anio." GROUP BY idObservacion) AS y)"))
+                ->first();
+
+            $totalObservaciones = count($observaciones);
+
+            if ($totalObservaciones > 0) {
+                return (string)$observaciones->Observacion . ': ' . $observaciones->Total;
+            }
+
+            return null;
+
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
 }

@@ -60,6 +60,9 @@
 			console.log('exito');
 
 			grafica('dvGraficaObservacionesGeneral', 'column', null, 350, 'Observaciones de redacción - Mensual', 'Meses', 'Total', resultado.series, resultado.drilldown);
+
+			$('#totalObservaciones').text(resultado.totalObservaciones);
+			$('#observacionMasRecurrente').text(resultado.observacionMasRecurrente);
 		})
 		.fail(function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log(errorThrown);

@@ -61,6 +61,30 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="innerAll">
+                            <div class="row">
+                            <div class="col-md-6">
+                                <div class="box-generic bg-info innerAll inner-2x">
+                                    <input type="hidden" id="urlTotalProgramados" value="{{ url('/dirGeneral/totalProgramados') }}">
+                                    <div class="text-large pull-right" id="totalObservaciones">{{ $totalObservaciones }}</div>
+                                    <h4 class="text-white margin-none">Total de observaciones</h4>
+                                    <h5 class="text-white fecha">Al día {{ date('Y-m-d') }}</h5>
+                                    <div class="separator"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="box-generic bg-success innerAll inner-2x">
+                                    <input type="hidden" id="urlTotalEvaluacionesProceso" value="{{ url('/dirGeneral/totalEvaluacionesProceso') }}">
+                                    <div class=" pull-right" id="observacionMasRecurrente">{{ $observacionMasRecurrente }}</div>
+                                    <h4 class="text-white margin-none">La observación más recurrente:</h4>
+                                    <h5 class="text-white fecha">Al día {{ date('Y-m-d') }}</h5>
+                                    <div class="separator"></div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
                     </div>
 
                     <div class="col-lg-6 col-md-6">

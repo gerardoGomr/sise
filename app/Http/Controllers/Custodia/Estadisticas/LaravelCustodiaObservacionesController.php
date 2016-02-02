@@ -36,9 +36,11 @@ class LaravelCustodiaObservacionesController extends Controller
      */
     public function index(EvaluadosRepositorioInterface $evaluadosRepositorio, UsuariosRepositorioInterface $usuariosRepositorio)
     {
-        $listaAnios     = $evaluadosRepositorio->obtenerAniosEvaluaciones(date('Y'));
-        $listaAnalistas = $usuariosRepositorio->obtenerAnalistas();
-        return View::make('custodia.estadisticas.grafica_observaciones_analistas', compact('listaAnios', 'listaAnalistas'));
+        $listaAnios               = $evaluadosRepositorio->obtenerAniosEvaluaciones(date('Y'));
+        $listaAnalistas           = $usuariosRepositorio->obtenerAnalistas();
+        $totalObservaciones       = $this->observacionesRepositorio->obtenerTotalDeObservaciones(date('Y'));
+        $observacionMasRecurrente = $this->observacionesRepositorio->obtenerObservacionMasRecurrente(date('Y'));
+        return View::make('custodia.estadisticas.grafica_observaciones_analistas', compact('listaAnios', 'listaAnalistas', 'totalObservaciones', 'observacionMasRecurrente'));
     }
 
 
@@ -57,6 +59,12 @@ class LaravelCustodiaObservacionesController extends Controller
             $tipoConversor = TipoConversoresFactory::obtenerConversor('observaciones_general');
             $conversor     = new ConversorHighcharts($tipoConversor);
             $listaFinal    = $conversor->convertir($listaObservacionesMensuales);
+
+            $totalObservaciones       = $this->observacionesRepositorio->obtenerTotalDeObservaciones($anio);
+            $observacionMasRecurrente = $this->observacionesRepositorio->obtenerObservacionMasRecurrente($anio);
+
+            $listaFinal['totalObservaciones']       = $totalObservaciones;
+            $listaFinal['observacionMasRecurrente'] = $observacionMasRecurrente;
 
             return response()->json($listaFinal);
         }
