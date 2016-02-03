@@ -25,14 +25,14 @@ Route::group([
 });
 
 // restringir rutas que son accesadas mediante ciertas IP
-Route::group([
+/*Route::group([
 		'prefix'     => '/',
 		'middleware' => 'ip'
-	],  function() {
+	],  function() {*/
 
 	// incluír rutas de dirección general
 	include app_path() . '\Http\Routes\routes_dirGeneral.php';
-});
+//});
 
 // rutas custodia
 include app_path() . '\Http\Routes\routes_custodia.php';
@@ -59,6 +59,9 @@ Route::get('/archivo/reporte/reporte-en-proceso/{anio?}', 'Archivo\LaravelArchiv
 Route::get('/archivo/reporte/reporte-en-proceso-pdf', 'Archivo\LaravelArchivoController@getReporteEnProceso');
 Route::post('/archivo/reporte/getDatosReporteEnProceso', 'Archivo\LaravelArchivoController@getDatosReporteEnProceso');
 Route::post('/archivo/reporte/getDatosGraficaEnProceso', 'Archivo\LaravelArchivoController@getDaTosGraficaEnProceso');
+
+Route::get('/archivo/reporte/reporte-totales/{anio?}', 'Archivo\LaravelArchivoController@reporteTotalesIndex');
+Route::post('/archivo/reporte/getDatosReporteTotales', 'Archivo\LaravelArchivoController@getDatosReporteTotales');
 
 ############################# Login
 Route::get('/login', 'Usuarios\LaravelLoginController@index');
