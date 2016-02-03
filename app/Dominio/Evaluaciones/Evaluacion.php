@@ -1,6 +1,7 @@
 <?php
 namespace Sise\Dominio\Evaluaciones;
 
+use Illuminate\Support\Collection;
 use Sise\Dominio\Dependencias\Dependencia;
 use Sise\Dominio\Usuarios\Puesto;
 
@@ -103,6 +104,11 @@ class Evaluacion
      * @var Serial
      */
     protected $serial;
+
+    /**
+     * @var Collection
+     */
+    protected $listaEvalucionesPoligrafia;
 
     /**
      * Evaluacion constructor.
@@ -397,6 +403,22 @@ class Evaluacion
     public function setSerial(Serial $serial)
     {
         $this->serial = $serial;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getListaEvalucionesPoligrafia()
+    {
+        return $this->listaEvalucionesPoligrafia;
+    }
+
+    /**
+     * @param Collection $listaEvalucionesPoligrafia
+     */
+    public function setListaEvalucionesPoligrafia(Collection $listaEvalucionesPoligrafia)
+    {
+        $this->listaEvalucionesPoligrafia = $listaEvalucionesPoligrafia;
     }
 
     /**

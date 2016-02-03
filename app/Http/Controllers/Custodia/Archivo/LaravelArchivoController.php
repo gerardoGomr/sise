@@ -68,6 +68,7 @@ class LaravelArchivoController extends Controller
                 $respuesta['mensaje'] = 'Memorandum no existe';
             }
 
+            $respuesta['html']  = ArchivoEntregaListasViewsFactory::crear($memoEntrega);
             $respuesta['html']  = view('custodia.archivo.archivo_entregas_lista', compact('memoEntrega'))->render();
             $respuesta['area']  = $serial->getArea()->getNombre();
             $respuesta['total'] = $memoEntrega->totalDeEvaluaciones();

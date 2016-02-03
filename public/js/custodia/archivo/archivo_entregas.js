@@ -27,12 +27,10 @@
                     }
 
                     $('#dvLista').html(resultado.html);
+                    generarDatatables('listaExpedientes');
                     $txtSerialExp.attr('disabled', false);
                     $txtSerialExp.focus();
-
                     $txtSerialMemo.val('');
-
-                    reiniciarDatatable('listaExpedientes', '', 'Expedientes en Memorandum', 'Expedientes en archivo');
                 })
                 .fail(function (XMLHttpRequest, textStatus, errorThrown) {
                     console.log(errorThrown);
@@ -48,5 +46,7 @@
         setTimeout(function(){
             $txtSerialMemo.focus();
         }, 1000);
+
+        //generarDatatables('listaExpedientes');
     });
 }(window.jQuery, window, document));

@@ -3,6 +3,7 @@ namespace Sise\Infraestructura\Evaluaciones;
 
 use Sise\Dominio\Evaluaciones\Elemento;
 use Sise\Dominio\Evaluaciones\Evaluacion;
+use Sise\Dominio\Evaluaciones\EvaluacionPoligrafia;
 use Sise\Dominio\Evaluaciones\MemoEntrega;
 use Sise\Dominio\Evaluaciones\Serial;
 use DB;
@@ -34,12 +35,16 @@ class MemosRepositorioLaravelSQLServer implements MemosRepositorioInterface
                 $memoEntrega->setSerial($serial);
 
                 foreach ($memos as $memos) {
+
                     is_null($memos->fidtox) ? $entrega = false : $entrega = true;
                     $evaluacion = new Evaluacion($memos->idhistorico);
                     $evaluacion->setElemento(new Elemento($memos->nombre, $memos->paterno, $memos->materno, $memos->curp, $memos->rfc));
                     $evaluacion->setNumeroEvaluacion($memos->idevaluacion);
                     $evaluacion->setSerial($serial);
                     $evaluacion->setEntregaMedicoToxicologica($entrega);
+
+                    $this->obtenerEvaluacionesPoligraficasdeEvaluacion($evaluacion);
+
                     $memoEntrega->agregarEvaluacion($evaluacion);
                 }
 
@@ -51,6 +56,29 @@ class MemosRepositorioLaravelSQLServer implements MemosRepositorioInterface
         } catch (\PDOException $e) {
             echo $e->getMessage();
             return null;
+        }
+    }
+
+    private function obtenerEvaluacionesPoligraficasdeEvaluacion(Evaluacion $evaluacion)
+    {
+        try {
+            $evalPoli = DB::table('tHistoricoPol')
+                ->where('idevaluacion', $evaluacion->getNumeroEvaluacion())
+                ->where('curp', $evaluacion->getElemento()->getCurp())
+                ->get();
+
+            $totalPoli = count($evalPoli);
+
+            if ($totalPoli > 0) {
+
+                foreach ($evalPoli as $evalPoli) {
+                    $evaluacionPoligrafica = new EvaluacionPoligrafia($evalPoli->idevalpol, $evalPoli->idpol, $evalPoli->fidPolCust);
+                    $evaluacion->getListaEvalucionesPoligrafia()->push($evaluacionPoligrafica);
+                }
+            }
+
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
         }
     }
 }
