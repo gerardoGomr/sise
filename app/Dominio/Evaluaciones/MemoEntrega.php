@@ -62,9 +62,28 @@ class MemoEntrega
         $this->listaEvaluaciones->forget($id);
     }
 
-    public function buscarEvaluacion($id)
+    /**
+     * buscar una evaluacion dentro de la lista del memorandum
+     * @param int $id
+     * @return boolean
+     */
+    private function buscarEvaluacion($id)
     {
         return $this->listaEvaluaciones->search($id);
+    }
+
+    /**
+     * obtener una evaluacion en específico
+     * @param int $id
+     * @return mixed|null
+     */
+    public function evaluacion($id)
+    {
+        if ($this->buscarEvaluacion($id) === false) {
+            return null;
+        }
+
+        return $this->listaEvaluaciones->get($id);
     }
 
     /**

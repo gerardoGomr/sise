@@ -69,12 +69,12 @@ class LaravelArchivoController extends Controller
             }
 
             $respuesta['html']  = view('custodia.archivo.archivo_entregas_lista', compact('memoEntrega'))->render();
-            $respuesta['area']  = $serial->getArea();
+            $respuesta['area']  = $serial->getArea()->getNombre();
             $respuesta['total'] = $memoEntrega->totalDeEvaluaciones();
         } else {
             $memoEntrega        = $request->session()->get('memoEntrega');
             $respuesta['html']  = view('custodia.archivo.archivo_entregas_lista', compact('memoEntrega'))->render();
-            $respuesta['area']  = $serial->getArea();
+            $respuesta['area']  = $serial->getArea()->getNombre();
             $respuesta['total'] = $memoEntrega->totalDeEvaluaciones();
         }
 
@@ -97,9 +97,16 @@ class LaravelArchivoController extends Controller
             $respuesta['mensaje'] = 'Expediente no existe';
         }
 
-        if ($memoEntrega->buscarEvaluacion($evaluacion->getId())) {
+        if (!is_null($memoEntrega->evaluacion($evaluacion->getId()))) {
             // evaluacion esta en el memo
+            $memoEntrega->evaluacion($evaluacion->getId())->marcarEntregaDeExpediente();
         }
+
+        $request->session()->put('memoEntrega', $memoEntrega);
+
+        $respuesta['html']  = view('custodia.archivo.archivo_entregas_lista', compact('memoEntrega'))->render();
+        $respuesta['area']  = $serial->getArea();
+        $respuesta['total'] = $memoEntrega->totalDeEvaluaciones();
     }
 
     /**

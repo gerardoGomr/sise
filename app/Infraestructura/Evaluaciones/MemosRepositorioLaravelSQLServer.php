@@ -24,8 +24,7 @@ class MemosRepositorioLaravelSQLServer implements MemosRepositorioInterface
                 })
                 ->join('tElementosint', 'tElementosint.curp', '=', 'tHistorico.curp')
                 ->where('pEntregaexp.cmemo', $serial->getSerialBase())
-                ->orderBy('tElementosint.nombre')
-                ->orderBy('tElementosint.paterno')
+                ->orderBy('pEntregaexp.curp')
                 ->get();
 
             $totalEvaluaciones = count($memos);
@@ -35,10 +34,12 @@ class MemosRepositorioLaravelSQLServer implements MemosRepositorioInterface
                 $memoEntrega->setSerial($serial);
 
                 foreach ($memos as $memos) {
+                    is_null($memos->fidtox) ? $entrega = false : $entrega = true;
                     $evaluacion = new Evaluacion($memos->idhistorico);
                     $evaluacion->setElemento(new Elemento($memos->nombre, $memos->paterno, $memos->materno, $memos->curp, $memos->rfc));
                     $evaluacion->setNumeroEvaluacion($memos->idevaluacion);
-
+                    $evaluacion->setSerial($serial);
+                    $evaluacion->setEntregaMedicoToxicologica($entrega);
                     $memoEntrega->agregarEvaluacion($evaluacion);
                 }
 

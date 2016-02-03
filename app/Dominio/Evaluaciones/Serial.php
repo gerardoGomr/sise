@@ -19,7 +19,7 @@ abstract class Serial
     protected $serialBase;
 
     /**
-     * @var string
+     * @var Area
      */
     protected $area;
 
@@ -68,7 +68,7 @@ abstract class Serial
     }
 
     /**
-     * @return string
+     * @return Area
      */
     public function getArea()
     {
@@ -76,9 +76,9 @@ abstract class Serial
     }
 
     /**
-     * @param string $area
+     * @param Area $area
      */
-    public function setArea($area)
+    public function setArea(Area $area)
     {
         $this->area = $area;
     }
@@ -116,7 +116,7 @@ abstract class Serial
 
     /**
      * @param int $numero
-     * @return string
+     * @return Area
      */
     protected function obtenerArea($numero)
     {
@@ -143,6 +143,6 @@ abstract class Serial
                 break;
         }
 
-        return $nombre;
+        return new Area($numero, $nombre);
     }
 }

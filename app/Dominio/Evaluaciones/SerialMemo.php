@@ -16,10 +16,10 @@ class SerialMemo extends Serial
     public function descomponer()
     {
         // TODO: Implement descomponer() method.
-        $longitud = strlen($this->serial);
-        $area     = (int)substr($this->serial, ($longitud - 1), 1);
+        $longitud         = strlen($this->serial);
+        $area             = (int)substr($this->serial, ($longitud - 1), 1);
         $this->compuesto  = true;
-        $this->serialBase = substr($this->serial, 0, ($longitud -1));
+        $this->serialBase = substr($this->serial, 0, ($longitud - 1));
         $this->area       = $this->obtenerArea($area);
     }
 }

@@ -412,8 +412,60 @@ class Evaluacion
         return true;
     }
 
+    /**
+     * marcar la entrega de expediente en base al serial seteado
+     */
     public function marcarEntregaDeExpediente()
     {
+        switch ($this->serial->getArea()->getId()) {
+            case 1:
+                $this->entregaMedicoToxicologica = true;
+                break;
 
+            case 2:
+                $this->entregaSocioeconomicos = true;
+                break;
+
+            case 3:
+                $this->entregaPsicologia = true;
+                break;
+
+            case 4:
+                $this->entregaPoligrafia = true;
+                break;
+
+            case 5:
+                $this->entregaMedicoToxicologica = true;
+                break;
+        }
+    }
+
+    /**
+     * verificar si el área en cuestión entregó el expediente
+     * @return bool
+     */
+    public function entregoElArea()
+    {
+        switch ($this->serial->getArea()->getId()) {
+            case 1:
+                return $this->entregaMedicoToxicologica;
+                break;
+
+            case 2:
+                return $this->entregaSocioeconomicos;
+                break;
+
+            case 3:
+                return $this->entregaPsicologia;
+                break;
+
+            case 4:
+                return $this->entregaPoligrafia;
+                break;
+
+            case 5:
+                return $this->entregaMedicoToxicologica;
+                break;
+        }
     }
 }

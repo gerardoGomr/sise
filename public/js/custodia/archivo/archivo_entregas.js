@@ -31,6 +31,8 @@
                     $txtSerialExp.focus();
 
                     $txtSerialMemo.val('');
+
+                    reiniciarDatatable('listaExpedientes', '', 'Expedientes en Memorandum', 'Expedientes en archivo');
                 })
                 .fail(function (XMLHttpRequest, textStatus, errorThrown) {
                     console.log(errorThrown);
