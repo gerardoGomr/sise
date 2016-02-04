@@ -2,7 +2,7 @@
 namespace Sise\Dominio\Evaluaciones;
 
 
-use Sise\Dominio\Usuarios\Usuario;
+use Sise\Dominio\Usuarios\Trabajador;
 
 class EvaluacionPoligrafia
 {
@@ -24,10 +24,10 @@ class EvaluacionPoligrafia
     /**
      * EvaluacionPoligrafia constructor.
      * @param int $numeroEvaluacion
-     * @param Usuario $evaluador
+     * @param Trabajador $evaluador
      * @param string $fechaEntregaArchivo
      */
-    public function __construct($numeroEvaluacion = null, Usuario $evaluador = null, $fechaEntregaArchivo = null)
+    public function __construct($numeroEvaluacion = null, Trabajador $evaluador = null, $fechaEntregaArchivo = null)
     {
         $this->numeroEvaluacion    = $numeroEvaluacion;
         $this->evaluador           = $evaluador;
@@ -60,9 +60,9 @@ class EvaluacionPoligrafia
     }
 
     /**
-     * @param Usuario $evaluador
+     * @param Trabajador $evaluador
      */
-    public function setEvaluador($evaluador)
+    public function setEvaluador(Trabajador $evaluador)
     {
         $this->evaluador = $evaluador;
     }

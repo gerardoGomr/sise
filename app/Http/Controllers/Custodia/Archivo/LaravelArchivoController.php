@@ -3,12 +3,13 @@
 namespace Sise\Http\Controllers\Custodia\Archivo;
 
 use Illuminate\Http\Request;
-use Sise\Dominio\Evaluaciones\EntregaArchivo;
+use Sise\Dominio\Evaluaciones\SerialExpediente;
 use Sise\Dominio\Evaluaciones\SerialMemo;
 use Sise\Http\Requests;
 use Sise\Http\Controllers\Controller;
 use Sise\Infraestructura\Evaluaciones\EvaluacionesRepositorioInterface;
 use Sise\Infraestructura\Evaluaciones\MemosRepositorioInterface;
+use Sise\Servicios\Factories\ArchivoEntregaListasViewsFactory;
 use View;
 
 /**
@@ -69,12 +70,11 @@ class LaravelArchivoController extends Controller
             }
 
             $respuesta['html']  = ArchivoEntregaListasViewsFactory::crear($memoEntrega);
-            $respuesta['html']  = view('custodia.archivo.archivo_entregas_lista', compact('memoEntrega'))->render();
             $respuesta['area']  = $serial->getArea()->getNombre();
             $respuesta['total'] = $memoEntrega->totalDeEvaluaciones();
         } else {
             $memoEntrega        = $request->session()->get('memoEntrega');
-            $respuesta['html']  = view('custodia.archivo.archivo_entregas_lista', compact('memoEntrega'))->render();
+            $respuesta['html']  = ArchivoEntregaListasViewsFactory::crear($memoEntrega);
             $respuesta['area']  = $serial->getArea()->getNombre();
             $respuesta['total'] = $memoEntrega->totalDeEvaluaciones();
         }
@@ -84,10 +84,15 @@ class LaravelArchivoController extends Controller
         return response()->json($respuesta);
     }
 
+    /**
+     * marcar un expediente como entregado
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function marcarExpediente(Request $request)
     {
-        $txtSerial   = $request->get('txtSerial');
-        $serial      = new Serial($txtSerial);
+        $txtSerial   = $request->get('txtSerialExp');
+        $serial      = new SerialExpediente($txtSerial);//dd($serial);
         $memoEntrega = $request->session()->get('memoEntrega');
         $respuesta   = [];
 
@@ -105,53 +110,21 @@ class LaravelArchivoController extends Controller
 
         $request->session()->put('memoEntrega', $memoEntrega);
 
-        $respuesta['html']  = view('custodia.archivo.archivo_entregas_lista', compact('memoEntrega'))->render();
-        $respuesta['area']  = $serial->getArea();
+        $respuesta['html']  = ArchivoEntregaListasViewsFactory::crear($memoEntrega);
+        //$respuesta['area']  = $serial->getArea()->getNombre();
         $respuesta['total'] = $memoEntrega->totalDeEvaluaciones();
+
+        return response()->json($respuesta);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function marcarEntrega(Request $request)
     {
-        //
-    }
+        $memoEntrega = $request->session()->get('memoEntrega');
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+        $this->evaluacionesRepositorio->marcarEntrega($memoEntrega->getListaEvaluaciones());
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        //$request->session()->forget('memoEntrega');
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return response(1);
     }
 }

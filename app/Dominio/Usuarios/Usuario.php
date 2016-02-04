@@ -25,8 +25,9 @@ abstract class Usuario
     protected $activo;
 
     /**
-     * constructor
+     * Usuario constructor.
      * @param string $username
+     * @param string $passwd
      */
     public function __construct($username = '', $passwd = '')
     {

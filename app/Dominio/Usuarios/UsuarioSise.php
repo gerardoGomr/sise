@@ -11,7 +11,6 @@ class UsuarioSise extends Usuario
      */
     protected $modulosAsignados;
 
-
     /**
      * Devuelve lista de modulos que el usuario puede ver.
      *

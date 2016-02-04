@@ -37,10 +37,10 @@
                                                 <div class="col-md-3">
                                                     <input type="text" name="txtSerialExp" id="txtSerialExp" class="form-control" maxlength="10" disabled="disabled">
                                                 </div>
+                                                <div class="col-md-9">
+                                                    <p><span class="strong">Área que entrega: </span> <span id="area"></span></p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="button" class="btn btn-primary" value="Guardar >>">
                                         </div>
                                         {!! Form::close() !!}
 

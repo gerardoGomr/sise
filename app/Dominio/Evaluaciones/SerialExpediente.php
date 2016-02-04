@@ -1,16 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Rafaelc
- * Date: 28/01/2016
- * Time: 14:05
- */
-
 namespace Sise\Dominio\Evaluaciones;
 
 
 class SerialExpediente extends Serial
 {
+    public function __construct($serial)
+    {
+        parent::__construct($serial);
+    }
+
     public function descomponer()
     {
         // TODO: Implement descomponer() method.

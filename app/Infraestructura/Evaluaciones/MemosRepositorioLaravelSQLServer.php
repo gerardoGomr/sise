@@ -1,12 +1,16 @@
 <?php
 namespace Sise\Infraestructura\Evaluaciones;
 
+use Illuminate\Support\Collection;
 use Sise\Dominio\Evaluaciones\Elemento;
 use Sise\Dominio\Evaluaciones\Evaluacion;
 use Sise\Dominio\Evaluaciones\EvaluacionPoligrafia;
 use Sise\Dominio\Evaluaciones\MemoEntrega;
 use Sise\Dominio\Evaluaciones\Serial;
 use DB;
+use Sise\Dominio\Evaluaciones\SerialExpediente;
+use Sise\Dominio\Usuarios\Trabajador;
+use Sise\Dominio\Usuarios\UsuarioSise;
 
 /**
  * Class MemosRepositorioInterface
@@ -25,7 +29,7 @@ class MemosRepositorioLaravelSQLServer implements MemosRepositorioInterface
                 })
                 ->join('tElementosint', 'tElementosint.curp', '=', 'tHistorico.curp')
                 ->where('pEntregaexp.cmemo', $serial->getSerialBase())
-                ->orderBy('pEntregaexp.curp')
+                ->orderBy('tHistorico.SerialElement')
                 ->get();
 
             $totalEvaluaciones = count($memos);
@@ -40,7 +44,7 @@ class MemosRepositorioLaravelSQLServer implements MemosRepositorioInterface
                     $evaluacion = new Evaluacion($memos->idhistorico);
                     $evaluacion->setElemento(new Elemento($memos->nombre, $memos->paterno, $memos->materno, $memos->curp, $memos->rfc));
                     $evaluacion->setNumeroEvaluacion($memos->idevaluacion);
-                    $evaluacion->setSerial($serial);
+                    $evaluacion->setSerial(new SerialExpediente($memos->SerialElement . $memoEntrega->getSerial()->getArea()->getId()));
                     $evaluacion->setEntregaMedicoToxicologica($entrega);
 
                     $this->obtenerEvaluacionesPoligraficasdeEvaluacion($evaluacion);
@@ -72,7 +76,15 @@ class MemosRepositorioLaravelSQLServer implements MemosRepositorioInterface
             if ($totalPoli > 0) {
 
                 foreach ($evalPoli as $evalPoli) {
-                    $evaluacionPoligrafica = new EvaluacionPoligrafia($evalPoli->idevalpol, $evalPoli->idpol, $evalPoli->fidPolCust);
+                    $usuario = new Trabajador();
+                    $usuario->setUsuario(new UsuarioSise());
+                    $usuario->getUsuario()->setUsername($evalPoli->idpol);
+
+                    $evaluacionPoligrafica = new EvaluacionPoligrafia($evalPoli->idevalpol, $usuario, $evalPoli->fidPolCust);
+
+                    if (is_null($evaluacion->getListaEvalucionesPoligrafia())) {
+                        $evaluacion->setListaEvalucionesPoligrafia(new Collection());
+                    }
                     $evaluacion->getListaEvalucionesPoligrafia()->push($evaluacionPoligrafica);
                 }
             }

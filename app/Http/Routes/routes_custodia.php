@@ -16,3 +16,6 @@ Route::post('custodia/archivo/entregas', 'Custodia\Archivo\LaravelArchivoControl
 
 // ruta para entrega -recepcion, agregar evaluacion
 Route::post('custodia/archivo/entregas/expediente', 'Custodia\Archivo\LaravelArchivoController@marcarExpediente');
+
+// ruta para entrega - recepción, actualizar
+Route::post('custodia/archivo/entregas/marcar', 'Custodia\Archivo\LaravelArchivoController@marcarEntrega');

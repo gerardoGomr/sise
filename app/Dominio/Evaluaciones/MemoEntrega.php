@@ -25,6 +25,11 @@ class MemoEntrega
     private $entregado;
 
     /**
+     * @var bool
+     */
+    private $expedientesEntregados;
+
+    /**
      * @var Serial
      */
     private $serial;
@@ -69,7 +74,7 @@ class MemoEntrega
      */
     private function buscarEvaluacion($id)
     {
-        return $this->listaEvaluaciones->search($id);
+        return $this->listaEvaluaciones->has($id);
     }
 
     /**
@@ -117,6 +122,19 @@ class MemoEntrega
     public function entregado()
     {
         return $this->entregado;
+    }
+
+    public function expedientesEntregados()
+    {
+        foreach ( $this->listaEvaluaciones as $evaluacion ) {
+            $this->expedientesEntregados = $evaluacion->entregoElArea();
+
+            if ($this->expedientesEntregados === false) {
+                return false;
+            }
+        }
+
+        return $this->expedientesEntregados;
     }
 
     /**
