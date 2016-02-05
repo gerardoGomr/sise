@@ -31,4 +31,10 @@ interface ObservacionesRepositorioInterface
      * @return string
      */
     public function obtenerObservacionMasRecurrente($anio);
+
+    /**
+     * @param array $parametos
+     * @return array
+     */
+    public function obtenerTotalDeObservacionesDetallePorAnalistas(array $parametos);
 }

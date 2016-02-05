@@ -36,15 +36,21 @@
 			graficarObservacionesAnalistas($('#formAnalistas').serialize());
 		});
 
-		/*setTimeout(function(){
-			$('#sparkline').sparkline('html', {
-			    type:       'bar',
-			    height:     '70',
-			    barWidth:   10,
-			    barSpacing: 8,
-			    colorMap:   $('#sparkline').data('colors').split(",")
-			});
-		}, 600);*/
+		// ver detalle de analista
+		$('#btnVerHistorial').on('click', function(event) {
+			event.preventDefault();
+
+			// abrir fancybox
+			$.fancybox.open([{
+				fitToView:   false,
+				width:       '40%',
+				maxHeight:   '70%',
+				openEffect:  'fade',
+				closeEffect: 'fade',
+				type:        'iframe',
+				href:        $(this).attr('href') + '/' + btoa($('#anioBusqueda').val()) + '/' + btoa($('#analistas').val()) + '/' + btoa($('#fecha1').val()) + '/' + btoa($('#fecha2').val())
+			}]);
+		});
 	});
 
 	/**
@@ -79,6 +85,13 @@
 
 		busqueda.done(function(resultado) {
 			console.log('exito');
+
+			// verificar que un valor del combo se haya seleccionado para mostrar botón
+			if ($('#analistas').val() !== '') {
+				$('#btnVerHistorial').show(300);
+			} else {
+				$('#btnVerHistorial').hide(300);
+			}
 
 			grafica('dvGraficaAnalistas', 'column', null, 350, 'Observaciones de redacción', 'Analistas', 'Total', resultado.series, resultado.drilldown);
 		})

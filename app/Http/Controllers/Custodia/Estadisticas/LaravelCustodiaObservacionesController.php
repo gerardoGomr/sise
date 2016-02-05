@@ -72,6 +72,11 @@ class LaravelCustodiaObservacionesController extends Controller
         return response()->json('');
     }
 
+    /**
+     * generar la gráfica de desempeño de observaciones de los analistas de custodia a detalle
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function graficaAnalistas(Request $request)
     {
         // parámetros
@@ -93,5 +98,30 @@ class LaravelCustodiaObservacionesController extends Controller
         }
 
         return response()->json('');
+    }
+
+
+    /**
+     * ver la vista de observaciones detalle de un analista
+     * @param $anio
+     * @param $analista
+     * @param $fecha1
+     * @param $fecha2
+     * @return View
+     */
+    public function detalle($anio, $analista, $fecha1 = null, $fecha2 = null)
+    {
+        // parámetros
+        $parametros = [
+            'anio'    => base64_decode($anio),
+            'analista'=> base64_decode($analista),
+            'fecha1'  => !is_null($fecha1) && !empty($fecha1) ? base64_decode($fecha1) : null,
+            'fecha2'  => !is_null($fecha2) && !empty($fecha2) ? base64_decode($fecha2) : null,
+        ];
+
+        $listaObservaciones = $this->observacionesRepositorio->obtenerTotalDeObservacionesDetallePorAnalistas($parametros);
+        $listaObservaciones['Periodo'] = (!is_null($fecha1) && !empty($fecha1)) && (!is_null($fecha2) && !empty($fecha2)) ? 'Del ' . $parametros['fecha1'] . ' al ' . $parametros['fecha2'] : 'Año ' . $parametros['anio'];
+
+        return View::make('custodia.estadisticas.observaciones_analista_detalle', compact('listaObservaciones'));
     }
 }

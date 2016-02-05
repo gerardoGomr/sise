@@ -1,5 +1,9 @@
 @extends('app_full')
 
+@section('css')
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/components/modules/admin/modals/assets/js/source/jquery.fancybox.css') }}">
+@stop
+
 @section('contenido')
     <div class="row row-app">
         <div class="col-md-12">
@@ -77,8 +81,8 @@
                             <div class="col-md-6">
                                 <div class="box-generic bg-success innerAll inner-2x">
                                     <input type="hidden" id="urlTotalEvaluacionesProceso" value="{{ url('/dirGeneral/totalEvaluacionesProceso') }}">
-                                    <div class=" pull-right" id="observacionMasRecurrente">{{ $observacionMasRecurrente }}</div>
-                                    <h4 class="text-white margin-none">Observación más recurrente:</h4>
+                                    <div class="pull-right" id="observacionMasRecurrente"><h4>{{ $observacionMasRecurrente }}</h4></div>
+                                    <h5 class="text-white margin-none">Observación más recurrente:</h5>
                                     <h5 class="text-white fecha">Al día {{ date('Y-m-d') }}</h5>
                                     <div class="separator"></div>
                                 </div>
@@ -92,7 +96,7 @@
                             <div class="col-table">
                                 <div class="innerAll bg-gray">
                                     {!! Form::open([
-                                            'url'   => url('custodia/estadisticas/analistas/observaciones/detalle'),
+                                            'url'   => url('custodia/estadisticas/analistas/grafica/observaciones/detalle'),
                                             'id'    => 'formAnalistas',
                                             'class' => 'form-inline'
                                         ])
@@ -127,7 +131,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <input type="button" name="btnBuscar" id="btnBuscar" class="btn btn-primary" value="Buscar >>">
-                                                <input type="hidden" name="anio" value="{{ date('Y') }}">
+                                                <input type="hidden" name="anio" id="anioBusqueda" value="{{ date('Y') }}">
                                             </div>
                                         </div>
                                     </div>
@@ -143,6 +147,7 @@
                                             <div class="innerAll">
                                                 <div class="separator bottom"></div>
                                                 <span id="analistasLoading" style="display:none;"><i class="fa fa-spinner fa-spin fa-2x"></i></span>
+                                                <a href="{{ url('custodia/estadisticas/analistas/observaciones/detalle') }}" class="btn btn-info" style="display: none;" id="btnVerHistorial"><i class="fa fa-list-alt"></i> Ver historial de observaciones</a>
                                                 <div id="dvGraficaAnalistas"></div>
                                             </div>
                                         </div>
@@ -164,6 +169,7 @@
     <script type="text/javascript" src="{{ asset('public/assets/components/modules/admin/highcharts/js/modules/drilldown.src.js') }}"></script>
     <script type="text/javascript" src="{{ asset('public/assets/components/common/forms/elements/bootstrap-datepicker/assets/lib/js/bootstrap-datepicker.js') }}"></script>
     <script type="text/javascript" src="{{ asset('public/assets/components/common/forms/elements/bootstrap-datepicker/assets/lib/js/locales/bootstrap-datepicker.es.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('public/assets/components/modules/admin/modals/assets/js/source/jquery.fancybox.js') }}"></script>
     <script type="text/javascript" src="{{ asset('public/js/ajax.js') }}"></script>
     <script type="text/javascript" src="{{ asset('public/js/graficasHighcharts.js') }}"></script>
     <script type="text/javascript" src="{{ asset('public/js/custodia/estadisticas/grafica_observaciones_analistas.js') }}"></script>

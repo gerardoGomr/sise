@@ -150,4 +150,51 @@ class ObservacionesRepositorioLaravelSQLServer implements ObservacionesRepositor
             return null;
         }
     }
+
+    /**
+     * @param array $parametos
+     * @return array
+     */
+    public function obtenerTotalDeObservacionesDetallePorAnalistas(array $parametos)
+    {
+        $listaObservacionesDetalle = [];
+
+        try {
+            $observaciones = DB::connection('Integral')
+                ->table('observacion_supervision')
+                ->join('observacion_supervision_usuario', 'observacion_supervision.idObservacion', '=', 'observacion_supervision_usuario.idObservacion')
+                ->join('observacion_texto_analisis', 'observacion_texto_analisis.idObservacionTexto', '=', 'observacion_supervision_usuario.idObservacionTexto')
+                ->join('tUsuarios', 'tUsuarios.usuario', '=', 'observacion_supervision_usuario.Username')
+                ->where('observacion_supervision_usuario.Username', $parametos['analista']);
+
+            if (is_null($parametos['fecha1']) && is_null($parametos['fecha2'])) {
+                $observaciones->where(DB::raw('YEAR(observacion_supervision_usuario.FechaObservacion)'), $parametos['anio']);
+            } else {
+                $observaciones->whereBetween('observacion_supervision_usuario.FechaObservacion', [$parametos['fecha1'], $parametos['fecha2']]);
+            }
+
+            $observaciones = $observaciones->get();
+
+            $totalObservaciones = count($observaciones);
+
+            if ($totalObservaciones > 0) {
+                $listaObservacionesDetalle['Analista'] = $observaciones[0]->nombre;
+                foreach ( $observaciones as $observaciones) {
+                    $listaObservacionesDetalle['Detalle'][] = [
+                        'FechaObservacion' => $observaciones->FechaObservacion,
+                        'Observacion'      => $observaciones->Observacion,
+                        'Texto'            => $observaciones->Texto
+                    ];
+                }
+
+                return $listaObservacionesDetalle;
+            }
+
+            return null;
+
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return null;
+        }
+    }
 }

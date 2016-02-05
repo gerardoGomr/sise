@@ -6,7 +6,10 @@ Route::get('custodia/estadisticas/analistas/observaciones', 'Custodia\Estadistic
 Route::post('custodia/estadisticas/analistas/grafica/observaciones/general', 'Custodia\Estadisticas\LaravelCustodiaObservacionesController@graficaMensual');
 
 // gráfica de observaciones por analista
-Route::post('custodia/estadisticas/analistas/observaciones/detalle', 'Custodia\Estadisticas\LaravelCustodiaObservacionesController@graficaAnalistas');
+Route::post('custodia/estadisticas/analistas/grafica/observaciones/detalle', 'Custodia\Estadisticas\LaravelCustodiaObservacionesController@graficaAnalistas');
+
+// ruta para visualizar el historial de observaciones de un analista
+Route::get('custodia/estadisticas/analistas/observaciones/detalle/{anio}/{analista}/{fecha1?}/{fecha2?}', 'Custodia\Estadisticas\LaravelCustodiaObservacionesController@detalle');
 
 // ruta para entrega - recepcion archivo
 Route::get('custodia/archivo/entregas', 'Custodia\Archivo\LaravelArchivoController@index');
