@@ -163,11 +163,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="col-separator-h"></div>
-                                <div class="innerAll">
-                                    <a href="" class="btn btn-success"><i class="fa fa-list"></i> Reporte general</a>
-                                </div>
                             </div>
                         </div>
                     </div>

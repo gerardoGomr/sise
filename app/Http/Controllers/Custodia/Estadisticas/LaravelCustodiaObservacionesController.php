@@ -7,9 +7,10 @@ use Sise\Http\Requests;
 use Sise\Http\Controllers\Controller;
 use Sise\Infraestructura\Observaciones\ObservacionesRepositorioInterface;
 use Sise\Infraestructura\Usuarios\UsuariosRepositorioInterface;
-use Sise\Reportes\ObservacionesAnalistaReporte;
+use Sise\Reportes\ObservacionesAnalistasReporte;
 use Sise\Servicios\ConversorHighcharts;
 use Sise\Servicios\Factories\TipoConversoresFactory;
+use Sise\Servicios\Fecha;
 use View;
 
 /**
@@ -140,13 +141,13 @@ class LaravelCustodiaObservacionesController extends Controller
         ];
 
         $listaObservaciones = $this->observacionesRepositorio->obtenerObservacionesConcentrado($parametros);
-        if (is_null($parametros['fecha1']) && is_null($parametros['fecha2'])) {
-            $listaObservaciones['Periodo'] = ' del ' . $parametros['fecha1'] . ' al ' . $parametros['fecha2'];
+        if (!is_null($parametros['fecha1']) && !is_null($parametros['fecha2'])) {
+            $listaObservaciones['Periodo'] = ' del ' . Fecha::fechaDeHoy($parametros['fecha1']) . ' al ' . Fecha::fechaDeHoy($parametros['fecha2']);
         } else {
             $listaObservaciones['Periodo'] = ' del 01 de enero a la fecha del presente año';
         }
-        $reporte            = new ObservacionesAnalistaReporte($listaObservaciones);
+        $reporte            = new ObservacionesAnalistasReporte($listaObservaciones);
 
-        var_dump($reporte);
+        var_dump($reporte->generar());
     }
 }

@@ -219,7 +219,7 @@ class ObservacionesRepositorioLaravelSQLServer implements ObservacionesRepositor
                     ];
                 }
 
-                $parametros['analista'] = null;
+                $parametros['analista'] = '';
                 $listaObservacionesMensuales['Analistas'] = $this->obtenerTotalDeObservacionesPorAnalistas($parametros);
 
                 return $listaObservacionesMensuales;
