@@ -37,4 +37,10 @@ interface ObservacionesRepositorioInterface
      * @return array
      */
     public function obtenerTotalDeObservacionesDetallePorAnalistas(array $parametos);
+
+    /**
+     * @param  array $parametros
+     * @return array
+     */
+    public function obtenerObservacionesConcentrado(array $parametros);
 }

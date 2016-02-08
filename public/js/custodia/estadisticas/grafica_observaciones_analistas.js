@@ -51,6 +51,13 @@
 				href:        $(this).attr('href') + '/' + btoa($('#anioBusqueda').val()) + '/' + btoa($('#analistas').val()) + '/' + btoa($('#fecha1').val()) + '/' + btoa($('#fecha2').val())
 			}]);
 		});
+
+		$('#btnReporte').on('click', function(event) {
+			event.preventDefault();
+			$('#formAnalistas').attr('action', $(this).attr('href'));
+			$('#formAnalistas').attr('target', '_blank');
+			$('#formAnalistas').submit();
+		});
 	});
 
 	/**

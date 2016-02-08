@@ -7,6 +7,7 @@ use Sise\Http\Requests;
 use Sise\Http\Controllers\Controller;
 use Sise\Infraestructura\Observaciones\ObservacionesRepositorioInterface;
 use Sise\Infraestructura\Usuarios\UsuariosRepositorioInterface;
+use Sise\Reportes\ObservacionesAnalistaReporte;
 use Sise\Servicios\ConversorHighcharts;
 use Sise\Servicios\Factories\TipoConversoresFactory;
 use View;
@@ -123,5 +124,29 @@ class LaravelCustodiaObservacionesController extends Controller
         $listaObservaciones['Periodo'] = (!is_null($fecha1) && !empty($fecha1)) && (!is_null($fecha2) && !empty($fecha2)) ? 'Del ' . $parametros['fecha1'] . ' al ' . $parametros['fecha2'] : 'Año ' . $parametros['anio'];
 
         return View::make('custodia.estadisticas.observaciones_analista_detalle', compact('listaObservaciones'));
+    }
+
+    /**
+     * generar PDF de reporte general
+     * @param Request $request
+     */
+    public function reporteGeneral(Request $request)
+    {
+        // parámetros
+        $parametros = [
+            'anio'     => $request->get('anio'),
+            'fecha1'   => !is_null($request->get('fecha1')) && !empty($request->get('fecha1')) ? $request->get('fecha1') : null,
+            'fecha2'   => !is_null($request->get('fecha2')) && !empty($request->get('fecha2')) ? $request->get('fecha2') : null
+        ];
+
+        $listaObservaciones = $this->observacionesRepositorio->obtenerObservacionesConcentrado($parametros);
+        if (is_null($parametros['fecha1']) && is_null($parametros['fecha2'])) {
+            $listaObservaciones['Periodo'] = ' del ' . $parametros['fecha1'] . ' al ' . $parametros['fecha2'];
+        } else {
+            $listaObservaciones['Periodo'] = ' del 01 de enero a la fecha del presente año';
+        }
+        $reporte            = new ObservacionesAnalistaReporte($listaObservaciones);
+
+        var_dump($reporte);
     }
 }

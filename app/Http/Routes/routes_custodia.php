@@ -11,6 +11,9 @@ Route::post('custodia/estadisticas/analistas/grafica/observaciones/detalle', 'Cu
 // ruta para visualizar el historial de observaciones de un analista
 Route::get('custodia/estadisticas/analistas/observaciones/detalle/{anio}/{analista}/{fecha1?}/{fecha2?}', 'Custodia\Estadisticas\LaravelCustodiaObservacionesController@detalle');
 
+// ruta para generar reporte general de custodia observaciones
+Route::post('custodia/estadisticas/analistas/observaciones/reporte', 'Custodia\Estadisticas\LaravelCustodiaObservacionesController@reporteGeneral');
+
 // ruta para entrega - recepcion archivo
 Route::get('custodia/archivo/entregas', 'Custodia\Archivo\LaravelArchivoController@index');
 

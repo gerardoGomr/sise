@@ -92,50 +92,60 @@
                     </div>
 
                     <div class="col-lg-6 col-md-6">
-                        <div class="col-separator col-separator-first box">
+                        <div class="col-separator col-separator-last box">
                             <div class="col-table">
-                                <div class="innerAll bg-gray">
-                                    {!! Form::open([
-                                            'url'   => url('custodia/estadisticas/analistas/grafica/observaciones/detalle'),
-                                            'id'    => 'formAnalistas',
-                                            'class' => 'form-inline'
-                                        ])
-                                    !!}
-                                    <div class="row">
-                                        <div class="col-md-5">
-                                            <div class="form-group">
-                                                <label class="control-label">Analistas:</label>
-                                                <select name="analistas" id="analistas" class="form-control">
-                                                    <option value="">Todos</option>
-                                                    @foreach($listaAnalistas as $analista)
-                                                        <option value="{{ $analista['usuario'] }}">{{ $analista['nombre'] }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="innerAll bg-gray border-right">
+                                            {!! Form::open([
+                                                    'url'   => url('custodia/estadisticas/analistas/grafica/observaciones/detalle'),
+                                                    'id'    => 'formAnalistas',
+                                                    'class' => 'form-inline'
+                                                ])
+                                            !!}
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Analistas:</label>
+                                                        <select name="analistas" id="analistas" class="form-control">
+                                                            <option value="">Todos</option>
+                                                            @foreach($listaAnalistas as $analista)
+                                                                <option value="{{ $analista['usuario'] }}">{{ $analista['nombre'] }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
 
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label class="control-label">Entre fecha:</label>
-                                                <input type="text" name="fecha1" id="fecha1" class="fecha form-control">
-                                            </div>
-                                        </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Entre fecha:</label>
+                                                        <input type="text" name="fecha1" id="fecha1" class="fecha form-control">
+                                                    </div>
+                                                </div>
 
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label class="control-label">Y fecha:</label>
-                                                <input type="text" name="fecha2" id="fecha2" class="fecha form-control">
-                                            </div>
-                                        </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Y fecha:</label>
+                                                        <input type="text" name="fecha2" id="fecha2" class="fecha form-control">
+                                                    </div>
+                                                </div>
 
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <input type="button" name="btnBuscar" id="btnBuscar" class="btn btn-primary" value="Buscar >>">
-                                                <input type="hidden" name="anio" id="anioBusqueda" value="{{ date('Y') }}">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <input type="button" name="btnBuscar" id="btnBuscar" class="btn btn-primary" value="Buscar >>">
+                                                        <input type="hidden" name="anio" id="anioBusqueda" value="{{ date('Y') }}">
+                                                    </div>
+                                                </div>
                                             </div>
+                                            {!! Form::close() !!}
                                         </div>
                                     </div>
-                                    {!! Form::close() !!}
+
+                                    <div class="col-md-4">
+                                        <div class="innerAll">
+                                            <a href="{{ url('custodia/estadisticas/analistas/observaciones/reporte') }}" class="btn btn-success btn-block" id="btnReporte" target="_blank"><i class="fa fa-list"></i> Reporte general</a>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="col-separator-h"></div>
@@ -152,6 +162,11 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+
+                                <div class="col-separator-h"></div>
+                                <div class="innerAll">
+                                    <a href="" class="btn btn-success"><i class="fa fa-list"></i> Reporte general</a>
                                 </div>
                             </div>
                         </div>
