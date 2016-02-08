@@ -111,6 +111,16 @@ class Evaluacion
     protected $listaEvalucionesPoligrafia;
 
     /**
+     * @var ArchivoEstatus
+     */
+    protected $archivoEstatus;
+
+    /**
+     * @var bool
+     */
+    protected $diferenciada;
+
+    /**
      * Evaluacion constructor.
      * @param null $id
      */
@@ -422,12 +432,64 @@ class Evaluacion
     }
 
     /**
+     * @return ArchivoEstatus
+     */
+    public function getArchivoEstatus()
+    {
+        return $this->archivoEstatus;
+    }
+
+    /**
+     * @param ArchivoEstatus $archivoEstatus
+     */
+    public function setArchivoEstatus(ArchivoEstatus $archivoEstatus)
+    {
+        $this->archivoEstatus = $archivoEstatus;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function esDiferenciada()
+    {
+        return $this->diferenciada;
+    }
+
+    /**
+     * @param boolean $diferenciada
+     */
+    public function setDiferenciada($diferenciada)
+    {
+        if (is_numeric($diferenciada)) {
+            if ((int)$diferenciada === 1) {
+                $this->diferenciada = true;
+            }
+
+            $this->diferenciada = false;
+        }
+        $this->diferenciada = $diferenciada;
+    }
+
+    /**
      * verifica que tenga todos los elementos
      * @return bool
      */
     public function expedienteCompleto()
     {
-        if ( $this->entregoMedico() === false || $this->entregoPsicologia() === false || $this->entregoSocioeconomicos() === false || $this->entregaPoligrafia() === false || $this->entregoFichaIngreso() === false || $this->entregoResultadoIntegral() === false ) {
+        /*if ( $this->entregoMedico() === false || $this->entregoPsicologia() === false || $this->entregoSocioeconomicos() === false || $this->entregaPoligrafia() === false || $this->entregoFichaIngreso() === false || $this->entregoResultadoIntegral() === false ) {
+            return false;
+        }*/
+
+        // se verifica que sea diferenciada
+        if (!$this->esDiferenciada()) {
+            if ( $this->entregoMedico() === false || $this->entregoPsicologia() === false || $this->entregoSocioeconomicos() === false ) {
+                return false;
+            }
+
+            return true;
+        }
+
+        if ( $this->entregoMedico() === false || $this->entregoPsicologia() === false || $this->entregoSocioeconomicos() === false || $this->entregaPoligrafia() === false ) {
             return false;
         }
 
@@ -459,6 +521,12 @@ class Evaluacion
             case 5:
                 $this->entregaMedicoToxicologica = true;
                 break;
+        }
+
+        if ($this->expedienteCompleto()) {
+            if ($this->archivoEstatus->getId() === 1) {
+                $this->archivoEstatus = new ArchivoEstatus(2);
+            }
         }
     }
 

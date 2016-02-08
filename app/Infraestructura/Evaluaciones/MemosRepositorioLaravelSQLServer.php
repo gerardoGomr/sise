@@ -2,6 +2,7 @@
 namespace Sise\Infraestructura\Evaluaciones;
 
 use Illuminate\Support\Collection;
+use Sise\Dominio\Evaluaciones\ArchivoEstatus;
 use Sise\Dominio\Evaluaciones\Elemento;
 use Sise\Dominio\Evaluaciones\Evaluacion;
 use Sise\Dominio\Evaluaciones\EvaluacionPoligrafia;
@@ -44,10 +45,16 @@ class MemosRepositorioLaravelSQLServer implements MemosRepositorioInterface
                     $evaluacion = new Evaluacion($memos->idhistorico);
                     $evaluacion->setElemento(new Elemento($memos->nombre, $memos->paterno, $memos->materno, $memos->curp, $memos->rfc));
                     $evaluacion->setNumeroEvaluacion($memos->idevaluacion);
+                    $evaluacion->setDiferenciada($memos->evaldiferenciada);
                     $evaluacion->setSerial(new SerialExpediente($memos->SerialElement . $memoEntrega->getSerial()->getArea()->getId()));
                     $evaluacion->setEntregaMedicoToxicologica($entrega);
 
                     $this->obtenerEvaluacionesPoligraficasdeEvaluacion($evaluacion);
+
+                    if (is_null($memos->idArchivoEstatus)) {
+                        // en integración
+                        $evaluacion->setArchivoEstatus(new ArchivoEstatus(1));
+                    }
 
                     $memoEntrega->agregarEvaluacion($evaluacion);
                 }

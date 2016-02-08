@@ -37,6 +37,7 @@ class EvaluacionesRepositorioLaravelSQLServer implements EvaluacionesRepositorio
                 $evaluacion->setElemento(new Elemento($evaluaciones->nombre, $evaluaciones->paterno, $evaluaciones->materno, $evaluaciones->curp, $evaluaciones->rfc));
                 $evaluacion->setNumeroEvaluacion($evaluaciones->idevaluacion);
                 $evaluacion->setSerial($serial);
+                $evaluacion->setDiferenciada($evaluaciones->evaldiferenciada);
 
                 $this->obtenerEvaluacionesPoligraficasdeEvaluacion($evaluacion);
 
@@ -95,13 +96,50 @@ class EvaluacionesRepositorioLaravelSQLServer implements EvaluacionesRepositorio
                 //$operacion = DB::select('exec EntregaCustodia_final ?, ?, ?', [$evaluacion->getNumeroEvaluacion(), $evaluacion->getElemento()->getCurp(), $evaluacion->getSerial()->getArea()->getId()]);
                 switch ($evaluacion->getSerial()->getArea()->getId()) {
                     case 5:
+                        // médico
                         $operacion = DB::table('tHistorico')
                             ->where('idhistorico', $evaluacion->getId())
                             ->update([
                                 'fidtox' => date('Y-m-d H:m:i')
                             ]);
                         break;
+
+                    case 4:
+                        // poligrafía
+                        // recorrer cada una de las evaluaciones poligráficas y marcar entregacust
+                        foreach ( $evaluacion->getEvaluacionPoligrafia() as $evalPoligrafia ) {
+                            
+                        }
+                        break;
+
+                    case 3:
+                        // psicología
+                        $operacion = DB::table('tHistorico')
+                            ->where('idhistorico', $evaluacion->getId())
+                            ->update([
+                                'estatuspsi' => 5
+                            ]);
+                        break;
+
+                    case 2:
+                        // socioeconómicos
+                        $operacion = DB::table('tHistorico')
+                            ->where('idhistorico', $evaluacion->getId())
+                            ->update([
+                                'estatussoc' => 5
+                            ]);
+                        break;
                 }
+
+                // bandera de estatus para archivo
+                $operacion = DB::table('tHistorico')
+                    ->where('idhistorico', $evaluacion->getId())
+                    ->update([
+                        'idArchivoEstatus' => $evaluacion->getArchivoEstatus()->getId()
+                    ]);
+
+                // procedimiento almacenado de Gerardo Ocaña
+                $operacion = DB::select('exec IntegraciondeExpedientes ?, ?', array($evaluacion->getElemento()->getCurp(), $evaluacion->getNumeroEvaluacion()));
             }
 
         } catch (\PDOException $e) {
