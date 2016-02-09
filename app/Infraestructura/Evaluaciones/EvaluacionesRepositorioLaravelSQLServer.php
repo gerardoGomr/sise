@@ -106,9 +106,15 @@ class EvaluacionesRepositorioLaravelSQLServer implements EvaluacionesRepositorio
 
                     case 4:
                         // poligrafía
-                        // recorrer cada una de las evaluaciones poligráficas y marcar entregacust
+                        // recorrer cada una de las evaluaciones poligráficas y marcar entrega custodia
                         foreach ( $evaluacion->getEvaluacionPoligrafia() as $evalPoligrafia ) {
-                            
+                            $operacion = DB::table('tHistoricopol')
+                                ->where('idevaluacion', $evaluacion->getNumeroEvaluacion())
+                                ->where('curp', $evaluacion->getElemento()->getCurp())
+                                ->where('idevalpol', $evalPoligrafia->getNumeroEvaluacion())
+                                ->update([
+                                    'fEntCus' => date('Y-m-d H:m:i')
+                                ]);
                         }
                         break;
 
@@ -117,7 +123,8 @@ class EvaluacionesRepositorioLaravelSQLServer implements EvaluacionesRepositorio
                         $operacion = DB::table('tHistorico')
                             ->where('idhistorico', $evaluacion->getId())
                             ->update([
-                                'estatuspsi' => 5
+                                'estatuspsi'  => 5,
+                                'fentregaPsi' => date('Y-m-d H:m:i')
                             ]);
                         break;
 
@@ -126,7 +133,8 @@ class EvaluacionesRepositorioLaravelSQLServer implements EvaluacionesRepositorio
                         $operacion = DB::table('tHistorico')
                             ->where('idhistorico', $evaluacion->getId())
                             ->update([
-                                'estatussoc' => 5
+                                'estatusoc'   => 5,
+                                'fentregaSoc' => date('Y-m-d H:m:i')
                             ]);
                         break;
                 }
