@@ -33,13 +33,17 @@ class EvaluacionesRepositorioLaravelSQLServer implements EvaluacionesRepositorio
             $totalEvaluaciones = count($evaluaciones);
 
             if ($totalEvaluaciones > 0) {
+                is_null($evaluaciones->fidtox) ? $entrega = false : $entrega = true;
                 $evaluacion = new Evaluacion($evaluaciones->idhistorico);
                 $evaluacion->setElemento(new Elemento($evaluaciones->nombre, $evaluaciones->paterno, $evaluaciones->materno, $evaluaciones->curp, $evaluaciones->rfc));
                 $evaluacion->setNumeroEvaluacion($evaluaciones->idevaluacion);
                 $evaluacion->setSerial($serial);
                 $evaluacion->setDiferenciada($evaluaciones->evaldiferenciada);
+                $evaluacion->setEntregaMedicoToxicologica($entrega);
 
                 $this->obtenerEvaluacionesPoligraficasdeEvaluacion($evaluacion);
+
+                $evaluacion->verificarEntregaDePoligrafia();
 
                 return $evaluacion;
             }
@@ -74,6 +78,12 @@ class EvaluacionesRepositorioLaravelSQLServer implements EvaluacionesRepositorio
                     if (is_null($evaluacion->getListaEvalucionesPoligrafia())) {
                         $evaluacion->setListaEvalucionesPoligrafia(new Collection());
                     }
+
+                    $evaluacionPoligrafica->setEntregada(true);
+                    if (is_null($evalPoli->fEntCus)) {
+                        $evaluacionPoligrafica->setEntregada(false);
+                    }
+
                     $evaluacion->getListaEvalucionesPoligrafia()->push($evaluacionPoligrafica);
                 }
             }

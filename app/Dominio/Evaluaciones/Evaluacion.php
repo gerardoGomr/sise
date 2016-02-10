@@ -499,7 +499,7 @@ class Evaluacion
     /**
      * marcar la entrega de expediente en base al serial seteado
      */
-    public function marcarEntregaDeExpediente()
+    public function marcarEntregaDeExpediente($numeroEvaluacionPoligrafica = null)
     {
         switch ($this->serial->getArea()->getId()) {
             case 1:
@@ -515,7 +515,13 @@ class Evaluacion
                 break;
 
             case 4:
-                $this->entregaPoligrafia = true;
+                foreach ( $this->listaEvalucionesPoligrafia() as $evaluacionPoligrafia ) {
+                    if ($evaluacionPoligrafia->getNumeroEvaluacion() === $numeroEvaluacionPoligrafica) {
+                        $evaluacionPoligrafia->setEntregada(true);
+                        break;
+                    }
+                }
+                $this->verificarEntregaDePoligrafia();
                 break;
 
             case 5:
@@ -556,6 +562,21 @@ class Evaluacion
             case 5:
                 return $this->entregaMedicoToxicologica;
                 break;
+        }
+    }
+
+    public function verificarEntregaDePoligrafia()
+    {
+        $totalFaltantesPoli = 0;
+
+        foreach ( $this->listaEvalucionesPoligrafia as $evaluacionPoligrafia ) {
+            if (!$evaluacionPoligrafia->entregada()) {
+                $totalFaltantesPoli += 1;
+            }
+        }
+
+        if ($totalFaltantesPoli > 0) {
+            $this->entregaPoligrafia = false;
         }
     }
 }

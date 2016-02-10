@@ -5,11 +5,13 @@ namespace Sise\Http\Controllers\Custodia\Archivo;
 use Illuminate\Http\Request;
 use Sise\Dominio\Evaluaciones\SerialExpediente;
 use Sise\Dominio\Evaluaciones\SerialMemo;
+use Sise\Dominio\Evaluaciones\TipoSerial;
 use Sise\Http\Requests;
 use Sise\Http\Controllers\Controller;
 use Sise\Infraestructura\Evaluaciones\EvaluacionesRepositorioInterface;
 use Sise\Infraestructura\Evaluaciones\MemosRepositorioInterface;
 use Sise\Servicios\Factories\ArchivoEntregaListasViewsFactory;
+use Sise\Servicios\Factories\SerialesFactory;
 use View;
 
 /**
@@ -67,11 +69,11 @@ class LaravelArchivoController extends Controller
             if (is_null($memoEntrega)) {
                 $respuesta['html']    = '0';
                 $respuesta['mensaje'] = 'Memorandum no existe';
+            } else {
+                $respuesta['html']  = ArchivoEntregaListasViewsFactory::crear($memoEntrega);
+                $respuesta['area']  = $serial->getArea()->getNombre();
+                $respuesta['total'] = $memoEntrega->totalDeEvaluaciones();
             }
-
-            $respuesta['html']  = ArchivoEntregaListasViewsFactory::crear($memoEntrega);
-            $respuesta['area']  = $serial->getArea()->getNombre();
-            $respuesta['total'] = $memoEntrega->totalDeEvaluaciones();
         } else {
             $memoEntrega        = $request->session()->get('memoEntrega');
             $respuesta['html']  = ArchivoEntregaListasViewsFactory::crear($memoEntrega);
@@ -92,7 +94,7 @@ class LaravelArchivoController extends Controller
     public function marcarExpediente(Request $request)
     {
         $txtSerial   = $request->get('txtSerialExp');
-        $serial      = new SerialExpediente($txtSerial);//dd($serial);
+        $serial      = SerialesFactory::crear($txtSerial);
         $memoEntrega = $request->session()->get('memoEntrega');
         $respuesta   = [];
 
@@ -105,7 +107,11 @@ class LaravelArchivoController extends Controller
 
         if (!is_null($memoEntrega->evaluacion($evaluacion->getId()))) {
             // evaluacion esta en el memo
-            $memoEntrega->evaluacion($evaluacion->getId())->marcarEntregaDeExpediente();
+            if (!is_null($serial->getNumeroEvaluacionPoligrafica())) {
+                $memoEntrega->evaluacion($evaluacion->getId())->marcarEntregaDeExpediente($serial->getNumeroEvaluacionPoligrafica());
+            } else {
+                $memoEntrega->evaluacion($evaluacion->getId())->marcarEntregaDeExpediente();
+            }
         }
 
         $request->session()->put('memoEntrega', $memoEntrega);

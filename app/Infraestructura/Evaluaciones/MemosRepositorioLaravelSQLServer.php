@@ -51,6 +51,8 @@ class MemosRepositorioLaravelSQLServer implements MemosRepositorioInterface
 
                     $this->obtenerEvaluacionesPoligraficasdeEvaluacion($evaluacion);
 
+                    $evaluacion->verificarEntregaDePoligrafia();
+
                     if (is_null($memos->idArchivoEstatus)) {
                         // en integración
                         $evaluacion->setArchivoEstatus(new ArchivoEstatus(1));
@@ -88,10 +90,17 @@ class MemosRepositorioLaravelSQLServer implements MemosRepositorioInterface
                     $usuario->getUsuario()->setUsername($evalPoli->idpol);
 
                     $evaluacionPoligrafica = new EvaluacionPoligrafia($evalPoli->idevalpol, $usuario, $evalPoli->fidPolCust);
+                    $evaluacionPoligrafica->setFechaEntregaArchivo($evalPoli->fEntCus);
 
                     if (is_null($evaluacion->getListaEvalucionesPoligrafia())) {
                         $evaluacion->setListaEvalucionesPoligrafia(new Collection());
                     }
+
+                    $evaluacionPoligrafica->setEntregada(true);
+                    if (is_null($evalPoli->fEntCus)) {
+                        $evaluacionPoligrafica->setEntregada(false);
+                    }
+
                     $evaluacion->getListaEvalucionesPoligrafia()->push($evaluacionPoligrafica);
                 }
             }

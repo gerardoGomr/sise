@@ -22,6 +22,11 @@ class EvaluacionPoligrafia
     private $fechaEntregaArchivo;
 
     /**
+     * @var bool
+     */
+    private $entregada;
+
+    /**
      * EvaluacionPoligrafia constructor.
      * @param int $numeroEvaluacion
      * @param Trabajador $evaluador
@@ -81,5 +86,15 @@ class EvaluacionPoligrafia
     public function setFechaEntregaArchivo($fechaEntregaArchivo)
     {
         $this->fechaEntregaArchivo = $fechaEntregaArchivo;
+    }
+
+    public function setEntregada($entregada)
+    {
+        $this->entregada = $entregada;
+    }
+
+    public function entregada()
+    {
+        return $this->entregada;
     }
 }
